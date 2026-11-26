@@ -1,0 +1,2526 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patrick B. Pascual | Full-Stack Software Engineer &amp; Systems Administrator</title>
+  <meta name="description" content="Portfolio of Patrick B. Pascual — Full-Stack Software Engineer & Systems Administrator based in Valenzuela, Metro Manila, Philippines.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          },
+          colors: {
+            obsidian: '#09090b',
+            surface: '#111114',
+            stroke: '#27272a',
+            accentCyan: '#22d3ee',
+            accentEmerald: '#34d399'
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-slate-50 text-slate-900 dark:bg-[#09090b] dark:text-slate-100 font-sans antialiased selection:bg-cyan-400/20 selection:text-cyan-600 dark:selection:text-cyan-300 transition-colors duration-300 overflow-x-hidden">
+
+  <div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+    <div class="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:32px_32px]"></div>
+    <div class="absolute -top-40 left-1/2 -translate-x-1/2 h-[28rem] w-[48rem] rounded-full bg-cyan-500/10 dark:bg-cyan-400/10 blur-3xl"></div>
+    <div class="absolute top-1/3 -right-32 h-[24rem] w-[24rem] rounded-full bg-emerald-500/10 dark:bg-emerald-400/10 blur-3xl"></div>
+    <div class="absolute bottom-0 -left-32 h-[22rem] w-[22rem] rounded-full bg-cyan-500/5 dark:bg-cyan-400/5 blur-3xl"></div>
+  </div>
+
+  <div id="adminToolbar" class="hidden sticky top-0 z-50 border-b border-emerald-500/40 bg-slate-950/95 text-slate-100 backdrop-blur-md shadow-lg shadow-emerald-950/20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex flex-wrap items-center justify-between gap-2.5">
+      <div class="flex flex-wrap items-center gap-2.5">
+        <span class="inline-flex items-center gap-2 rounded-lg bg-emerald-500/15 border border-emerald-500/40 px-2.5 py-1 font-mono text-xs font-semibold text-emerald-300">
+          <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          DEV EDIT MODE
+        </span>
+        <span id="adminUserEmail" class="hidden sm:inline font-mono text-xs text-slate-400"></span>
+        <span id="syncStatusBadge" class="inline-flex items-center gap-1.5 rounded-lg bg-zinc-900 border border-zinc-800 px-2.5 py-1 font-mono text-[11px] text-cyan-300">
+          <span class="h-1.5 w-1.5 rounded-full bg-cyan-400"></span>
+          <span id="syncStatusText">Ready</span>
+        </span>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
+        <button type="button" data-admin-action="edit-profile" class="rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 px-2.5 py-1.5 font-mono text-xs text-slate-200 transition-colors">
+          Edit Profile
+        </button>
+        <button type="button" data-admin-action="add-experience" class="rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 px-2.5 py-1.5 font-mono text-xs text-cyan-300 transition-colors">
+          + Experience
+        </button>
+        <button type="button" data-admin-action="add-project" class="rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 px-2.5 py-1.5 font-mono text-xs text-cyan-300 transition-colors">
+          + Project
+        </button>
+        <button type="button" data-admin-action="add-skill" class="rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 px-2.5 py-1.5 font-mono text-xs text-cyan-300 transition-colors">
+          + Skill
+        </button>
+        <button type="button" data-admin-action="add-seminar" class="rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 px-2.5 py-1.5 font-mono text-xs text-cyan-300 transition-colors">
+          + Seminar
+        </button>
+        <button type="button" id="openFirebaseConfigBtn" class="rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-amber-500/40 px-2.5 py-1.5 font-mono text-xs text-amber-300 transition-colors">
+          Firebase / Vercel Config
+        </button>
+        <button type="button" id="exportHtmlBtn" class="rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 px-2.5 py-1.5 font-mono text-xs font-medium text-emerald-300 transition-colors">
+          Export Standalone HTML
+        </button>
+        <button type="button" id="openJsonModalBtn" class="rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 px-2.5 py-1.5 font-mono text-xs text-slate-300 transition-colors">
+          JSON
+        </button>
+        <button type="button" id="adminSignOutBtn" class="rounded-lg bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/40 px-2.5 py-1.5 font-mono text-xs font-medium text-rose-300 transition-colors">
+          Sign Out
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <header id="mainHeader" class="sticky top-0 z-40 border-b border-slate-200/80 dark:border-[#27272a]/80 bg-slate-50/85 dark:bg-[#09090b]/85 backdrop-blur-md">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex h-16 items-center justify-between">
+        <a href="#about" class="flex items-center gap-2.5 group focus:outline-none">
+          <span class="flex h-9 px-2.5 items-center justify-center rounded-xl bg-slate-900 dark:bg-[#111114] border border-slate-800 dark:border-[#27272a] text-cyan-400 font-mono text-xs font-bold tracking-wider shadow-sm group-hover:border-cyan-400/60 transition-colors">
+            PBP // SYS.DEV
+          </span>
+        </a>
+
+        <nav class="hidden md:flex items-center gap-1" aria-label="Primary Navigation">
+          <a href="#about" class="px-3 py-2 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/60 dark:hover:bg-[#111114] transition-colors">About</a>
+          <a href="#experience" class="px-3 py-2 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/60 dark:hover:bg-[#111114] transition-colors">Experience</a>
+          <a href="#projects" class="px-3 py-2 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/60 dark:hover:bg-[#111114] transition-colors">Projects</a>
+          <a href="#skills" class="px-3 py-2 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/60 dark:hover:bg-[#111114] transition-colors">Skills</a>
+          <a href="#seminars" class="px-3 py-2 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/60 dark:hover:bg-[#111114] transition-colors">Seminars</a>
+          <a href="#contact" class="px-3 py-2 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/60 dark:hover:bg-[#111114] transition-colors">Contact</a>
+        </nav>
+
+        <div class="flex items-center gap-2">
+          <button id="navDevTrigger" type="button" title="Developer CMS Login" class="inline-flex items-center gap-1.5 h-10 px-3 rounded-xl border border-slate-200 dark:border-[#27272a] bg-white dark:bg-[#111114] text-slate-600 dark:text-slate-400 hover:border-cyan-500/50 dark:hover:border-cyan-400/50 hover:text-cyan-600 dark:hover:text-cyan-400 font-mono text-xs transition-all">
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+            </svg>
+            <span id="navDevTriggerLabel" class="hidden sm:inline">Dev</span>
+          </button>
+
+          <button id="themeToggle" type="button" aria-label="Toggle Light and Dark Theme" class="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 dark:border-[#27272a] bg-white dark:bg-[#111114] text-slate-700 dark:text-slate-300 hover:border-cyan-500/50 dark:hover:border-cyan-400/50 hover:text-cyan-600 dark:hover:text-cyan-400 transition-all">
+            <svg class="hidden dark:block h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+            </svg>
+            <svg class="block dark:hidden h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+            </svg>
+          </button>
+
+          <a href="#contact" class="hidden sm:inline-flex items-center gap-2 rounded-xl bg-slate-900 dark:bg-[#22d3ee] px-4 py-2.5 text-sm font-semibold text-white dark:text-[#09090b] hover:bg-slate-800 dark:hover:bg-cyan-300 transition-colors shadow-sm">
+            Contact Me
+          </a>
+
+          <button id="mobileMenuBtn" type="button" aria-label="Open Navigation Menu" aria-expanded="false" class="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 dark:border-[#27272a] bg-white dark:bg-[#111114] text-slate-700 dark:text-slate-300 hover:border-cyan-500/50 transition-colors">
+            <svg id="menuIconOpen" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            <svg id="menuIconClose" class="hidden h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div id="mobileMenu" class="hidden md:hidden pb-4 pt-2 border-t border-slate-200 dark:border-[#27272a]">
+        <div class="flex flex-col gap-1">
+          <a href="#about" class="mobile-nav-link px-3 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-200/70 dark:hover:bg-[#111114]">About</a>
+          <a href="#experience" class="mobile-nav-link px-3 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-200/70 dark:hover:bg-[#111114]">Experience</a>
+          <a href="#projects" class="mobile-nav-link px-3 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-200/70 dark:hover:bg-[#111114]">Projects</a>
+          <a href="#skills" class="mobile-nav-link px-3 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-200/70 dark:hover:bg-[#111114]">Skills</a>
+          <a href="#seminars" class="mobile-nav-link px-3 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-200/70 dark:hover:bg-[#111114]">Seminars</a>
+          <a href="#contact" class="mobile-nav-link px-3 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-200/70 dark:hover:bg-[#111114]">Contact</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="about" class="relative pt-14 pb-20 sm:pt-20 sm:pb-28 scroll-mt-20">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div id="heroAdminBar" class="hidden mb-6 flex items-center justify-between rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-2.5">
+          <span class="font-mono text-xs text-emerald-700 dark:text-emerald-300">Hero, Bio &amp; Terminal Status Card</span>
+          <button type="button" data-admin-action="edit-profile" class="inline-flex items-center gap-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 px-3 py-1.5 font-mono text-xs font-semibold text-white transition-colors">
+            Edit Hero &amp; Terminal
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          <div class="lg:col-span-7 space-y-6">
+            <div class="flex flex-wrap items-center gap-2.5">
+              <div class="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1.5 text-xs font-mono font-medium text-emerald-700 dark:text-emerald-300">
+                <span class="relative flex h-2 w-2">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500 dark:bg-emerald-400"></span>
+                </span>
+                <svg class="h-3.5 w-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                </svg>
+                <span id="heroLocation">Valenzuela, Metro Manila, Philippines</span>
+              </div>
+
+              <div class="inline-flex items-center gap-1.5 rounded-full border border-slate-200 dark:border-[#27272a] bg-white dark:bg-[#111114] px-3 py-1.5 text-xs font-mono text-slate-600 dark:text-slate-400">
+                <span class="text-cyan-600 dark:text-[#22d3ee]">PST</span>
+                <span id="phClock">--:--:--</span>
+              </div>
+            </div>
+
+            <div class="space-y-3">
+              <h1 id="heroName" class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.08]">
+                Patrick B. Pascual
+              </h1>
+              <p id="heroHeadline" class="text-xl sm:text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-emerald-600 dark:from-[#22d3ee] dark:to-[#34d399]">
+                Full-Stack Software Engineer &amp; Systems Administrator
+              </p>
+            </div>
+
+            <p id="heroBio" class="text-base sm:text-lg text-slate-600 dark:text-slate-400 leading-relaxed max-w-2xl">
+              BSIT graduate/student at Pamantasan ng Lungsod ng Valenzuela (PLV) specializing in full-stack web engineering (C# ASP.NET Core, React, Node.js, Go, Python), cloud-native container orchestration (Kubernetes, GKE Autopilot, Docker), blockchain systems (Hyperledger Fabric), game development (Unity), and enterprise IT systems administration.
+            </p>
+
+            <div class="flex flex-wrap items-center gap-3 pt-2">
+              <a href="#projects" class="inline-flex items-center gap-2 rounded-xl bg-slate-900 dark:bg-[#22d3ee] px-5 py-3 text-sm font-semibold text-white dark:text-[#09090b] hover:bg-slate-800 dark:hover:bg-cyan-300 transition-all shadow-sm">
+                <span>View Projects</span>
+                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </a>
+              <a href="#contact" class="inline-flex items-center gap-2 rounded-xl border border-slate-300 dark:border-[#27272a] bg-white dark:bg-[#111114] px-5 py-3 text-sm font-semibold text-slate-800 dark:text-slate-200 hover:border-cyan-500/60 dark:hover:border-[#22d3ee]/60 hover:text-cyan-700 dark:hover:text-[#22d3ee] transition-all">
+                <span>Contact Me</span>
+                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                </svg>
+              </a>
+              <a id="heroPrimaryLink" href="https://plv-blockgo.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm font-mono font-medium text-emerald-700 dark:text-[#34d399] hover:border-emerald-500/60 transition-all">
+                <span id="heroPrimaryLinkLabel">plv-blockgo.com</span>
+                <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="lg:col-span-5">
+            <div class="rounded-2xl border border-slate-200 dark:border-[#27272a] bg-white dark:bg-[#111114] shadow-xl shadow-slate-900/5 dark:shadow-black/50 overflow-hidden">
+              <div class="flex items-center justify-between px-4 py-3 border-b border-slate-200 dark:border-[#27272a] bg-slate-100/80 dark:bg-zinc-950/70">
+                <div class="flex items-center gap-2">
+                  <span class="h-3 w-3 rounded-full bg-rose-500/80"></span>
+                  <span class="h-3 w-3 rounded-full bg-amber-400/80"></span>
+                  <span class="h-3 w-3 rounded-full bg-emerald-400/80"></span>
+                </div>
+                <span id="terminalHost" class="text-xs font-mono text-slate-500 dark:text-slate-400">patrick@plv-node:~</span>
+                <span class="inline-flex items-center gap-1.5 text-[11px] font-mono text-emerald-600 dark:text-[#34d399]">
+                  <span class="h-1.5 w-1.5 rounded-full bg-emerald-500 dark:bg-[#34d399] animate-pulse"></span>
+                  LIVE
+                </span>
+              </div>
+
+              <div class="p-5 sm:p-6 font-mono text-xs sm:text-sm space-y-4">
+                <div class="flex items-center justify-between gap-2">
+                  <div class="flex items-center gap-2">
+                    <span class="text-cyan-600 dark:text-[#22d3ee] font-semibold">$</span>
+                    <span id="terminalCommand" class="text-slate-800 dark:text-slate-200">status --profile</span>
+                  </div>
+                  <div class="flex items-center gap-1">
+                    <button type="button" data-term-tab="profile" class="term-tab rounded-md px-2.5 py-1 text-[11px] font-mono bg-cyan-500/15 text-cyan-700 dark:text-[#22d3ee] border border-cyan-500/30 transition-colors">
+                      profile
+                    </button>
+                    <button type="button" data-term-tab="infra" class="term-tab rounded-md px-2.5 py-1 text-[11px] font-mono text-slate-500 dark:text-slate-400 border border-transparent hover:border-slate-300 dark:hover:border-[#27272a] transition-colors">
+                      infra
+                    </button>
+                  </div>
+                </div>
+
+                <div id="terminalMetricsBody" class="space-y-3 rounded-xl bg-slate-50 dark:bg-[#09090b] border border-slate-200 dark:border-[#27272a] p-4"></div>
+
+                <div class="flex items-center justify-between text-xs text-slate-500 pt-1">
+                  <span id="terminalFooterLeft">Region: asia-southeast1 (PH)</span>
+                  <span id="terminalFooterRight" class="text-cyan-600 dark:text-[#22d3ee]">uptime 99.9%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience" class="py-16 sm:py-24 border-t border-slate-200/80 dark:border-[#27272a]/80 scroll-mt-20">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
+          <div>
+            <span class="font-mono text-xs uppercase tracking-widest text-cyan-600 dark:text-[#22d3ee]">01 / Career Timeline</span>
+            <h2 class="mt-2 text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white">Work Experience</h2>
+            <p class="mt-3 text-slate-600 dark:text-slate-400 max-w-2xl">Enterprise IT systems administration, onboarding operations, network troubleshooting, and structured production data automation.</p>
+          </div>
+          <button type="button" data-admin-action="add-experience" class="admin-only hidden self-start sm:self-end inline-flex items-center gap-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 px-4 py-2.5 font-mono text-xs font-semibold text-white shadow-sm transition-colors">
+            + Add Experience
+          </button>
+        </div>
+
+        <div id="experienceTimeline" class="relative pl-6 sm:pl-8 border-l-2 border-slate-200 dark:border-[#27272a] space-y-10"></div>
+      </div>
+    </section>
+
+    <section id="projects" class="py-16 sm:py-24 border-t border-slate-200/80 dark:border-[#27272a]/80 scroll-mt-20">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+          <div>
+            <span class="font-mono text-xs uppercase tracking-widest text-cyan-600 dark:text-[#22d3ee]">02 / Selected Engineering Work</span>
+            <h2 class="mt-2 text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white">Featured Projects</h2>
+            <p class="mt-3 text-slate-600 dark:text-slate-400 max-w-2xl">Distributed blockchain systems on Kubernetes, enterprise ASP.NET Core platforms, and Unity game frameworks.</p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-3">
+            <div id="projectFilters" class="flex flex-wrap gap-2" role="tablist" aria-label="Filter projects by category"></div>
+            <button type="button" data-admin-action="add-project" class="admin-only hidden inline-flex items-center gap-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 px-4 py-2 font-mono text-xs font-semibold text-white shadow-sm transition-colors">
+              + Add Project
+            </button>
+          </div>
+        </div>
+
+        <div id="projectsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      </div>
+    </section>
+
+    <section id="skills" class="py-16 sm:py-24 border-t border-slate-200/80 dark:border-[#27272a]/80 scroll-mt-20">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
+          <div>
+            <span class="font-mono text-xs uppercase tracking-widest text-cyan-600 dark:text-[#22d3ee]">03 / Technical Stack</span>
+            <h2 class="mt-2 text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white">Technical Skills</h2>
+            <p class="mt-3 text-slate-600 dark:text-slate-400 max-w-2xl">Full-spectrum capabilities spanning infrastructure administration, distributed backend architecture, interactive frontends, and blockchain automation.</p>
+          </div>
+          <button type="button" data-admin-action="add-skill" class="admin-only hidden self-start sm:self-end inline-flex items-center gap-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 px-4 py-2.5 font-mono text-xs font-semibold text-white shadow-sm transition-colors">
+            + Add Skill Category
+          </button>
+        </div>
+
+        <div id="skillsGrid" class="grid grid-cols-1 md:grid-cols-12 gap-6"></div>
+      </div>
+    </section>
+
+    <section id="seminars" class="py-16 sm:py-24 border-t border-slate-200/80 dark:border-[#27272a]/80 scroll-mt-20">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-10">
+          <span class="font-mono text-xs uppercase tracking-widest text-cyan-600 dark:text-[#22d3ee]">04 / Academic Credentials &amp; Growth</span>
+          <h2 class="mt-2 text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white">Education &amp; Seminars</h2>
+          <p class="mt-3 text-slate-600 dark:text-slate-400 max-w-2xl">Formal degree foundation paired with focused technical workshops in project governance, game QA, full-stack engineering, and cybersecurity.</p>
+        </div>
+
+        <div class="rounded-2xl border border-cyan-500/35 dark:border-[#22d3ee]/35 bg-gradient-to-br from-white via-white to-cyan-50/40 dark:from-[#111114] dark:via-[#111114] dark:to-cyan-950/20 p-6 sm:p-8 shadow-sm mb-10">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+            <div class="flex items-start gap-4">
+              <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-cyan-500/15 text-cyan-700 dark:text-[#22d3ee] border border-cyan-500/30">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
+                </svg>
+              </div>
+              <div>
+                <span id="eduBadge" class="inline-flex items-center rounded-md bg-cyan-500/10 border border-cyan-500/20 px-2.5 py-0.5 font-mono text-[11px] font-medium text-cyan-700 dark:text-[#22d3ee] uppercase tracking-wider">Undergraduate Degree</span>
+                <h3 id="eduDegree" class="mt-2 text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">Bachelor of Science in Information Technology (BSIT)</h3>
+                <p id="eduInstitution" class="mt-1 text-sm sm:text-base font-medium text-slate-700 dark:text-slate-300">Pamantasan ng Lungsod ng Valenzuela (PLV)</p>
+              </div>
+            </div>
+            <div class="flex flex-row sm:flex-col items-center sm:items-end justify-between gap-2 pt-3 sm:pt-0 border-t sm:border-t-0 border-slate-200 dark:border-[#27272a]">
+              <span class="inline-flex items-center gap-1.5 font-mono text-xs text-slate-600 dark:text-slate-400">
+                <svg class="h-4 w-4 text-emerald-600 dark:text-[#34d399]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                </svg>
+                <span id="eduLocation">Valenzuela City, Philippines</span>
+              </span>
+              <div class="flex items-center gap-2">
+                <span id="eduShortTag" class="rounded-lg bg-emerald-500/10 border border-emerald-500/25 px-3 py-1 font-mono text-xs font-semibold text-emerald-700 dark:text-[#34d399]">BSIT · PLV</span>
+                <button type="button" data-admin-action="edit-education" class="admin-only hidden rounded-lg bg-emerald-600 hover:bg-emerald-500 px-2.5 py-1 font-mono text-xs font-semibold text-white transition-colors">
+                  Edit
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <div>
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white">Seminars &amp; Professional Development</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">University-hosted technical seminars attended at Pamantasan ng Lungsod ng Valenzuela.</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <div id="seminarFilters" class="flex flex-wrap gap-2" role="tablist" aria-label="Filter seminars by date"></div>
+            <button type="button" data-admin-action="add-seminar" class="admin-only hidden inline-flex items-center gap-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 px-3.5 py-1.5 font-mono text-xs font-semibold text-white transition-colors">
+              + Add Seminar
+            </button>
+          </div>
+        </div>
+
+        <div id="seminarsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+      </div>
+    </section>
+
+    <section id="contact" class="py-16 sm:py-24 border-t border-slate-200/80 dark:border-[#27272a]/80 scroll-mt-20">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
+          <div>
+            <span class="font-mono text-xs uppercase tracking-widest text-cyan-600 dark:text-[#22d3ee]">05 / Connect</span>
+            <h2 class="mt-2 text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white">Get in Touch</h2>
+            <p class="mt-3 text-slate-600 dark:text-slate-400 max-w-2xl">Open to System Administration, Cloud/DevOps, and Full-Stack Software Engineering roles or technical project collaborations.</p>
+          </div>
+          <button type="button" data-admin-action="edit-contacts" class="admin-only hidden self-start sm:self-end inline-flex items-center gap-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 px-4 py-2.5 font-mono text-xs font-semibold text-white shadow-sm transition-colors">
+            Edit Contact Cards
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
+          <div id="contactCardsGrid" class="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3.5 content-start"></div>
+
+          <div class="lg:col-span-7">
+            <form id="contactForm" novalidate class="rounded-2xl border border-slate-200 dark:border-[#27272a] bg-white dark:bg-[#111114] p-6 sm:p-8 shadow-sm space-y-5">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div>
+                  <label for="contactName" class="block text-xs font-mono uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Name</label>
+                  <input id="contactName" name="name" type="text" required placeholder="Your full name" class="w-full rounded-xl border border-slate-300 dark:border-[#27272a] bg-slate-50 dark:bg-[#09090b] px-4 py-3 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-600 focus:border-cyan-500 dark:focus:border-[#22d3ee] focus:outline-none focus:ring-2 focus:ring-cyan-500/20 transition-all">
+                  <p id="nameError" class="hidden mt-1.5 text-xs text-rose-500 font-medium">Please enter your name (at least 2 characters).</p>
+                </div>
+
+                <div>
+                  <label for="contactEmail" class="block text-xs font-mono uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Email</label>
+                  <input id="contactEmail" name="email" type="email" required placeholder="you@company.com" class="w-full rounded-xl border border-slate-300 dark:border-[#27272a] bg-slate-50 dark:bg-[#09090b] px-4 py-3 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-600 focus:border-cyan-500 dark:focus:border-[#22d3ee] focus:outline-none focus:ring-2 focus:ring-cyan-500/20 transition-all">
+                  <p id="emailError" class="hidden mt-1.5 text-xs text-rose-500 font-medium">Please enter a valid email address.</p>
+                </div>
+              </div>
+
+              <div>
+                <label for="contactSubject" class="block text-xs font-mono uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Subject</label>
+                <input id="contactSubject" name="subject" type="text" required placeholder="System Administration / Full-Stack Opportunity" class="w-full rounded-xl border border-slate-300 dark:border-[#27272a] bg-slate-50 dark:bg-[#09090b] px-4 py-3 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-600 focus:border-cyan-500 dark:focus:border-[#22d3ee] focus:outline-none focus:ring-2 focus:ring-cyan-500/20 transition-all">
+                <p id="subjectError" class="hidden mt-1.5 text-xs text-rose-500 font-medium">Please provide a short subject.</p>
+              </div>
+
+              <div>
+                <label for="contactMessage" class="block text-xs font-mono uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Message</label>
+                <textarea id="contactMessage" name="message" rows="4" required placeholder="Tell me about the role, infrastructure challenge, or software project..." class="w-full rounded-xl border border-slate-300 dark:border-[#27272a] bg-slate-50 dark:bg-[#09090b] px-4 py-3 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-600 focus:border-cyan-500 dark:focus:border-[#22d3ee] focus:outline-none focus:ring-2 focus:ring-cyan-500/20 transition-all resize-y"></textarea>
+                <p id="messageError" class="hidden mt-1.5 text-xs text-rose-500 font-medium">Please write a message (at least 10 characters).</p>
+              </div>
+
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-1">
+                <p class="text-xs font-mono text-slate-500 dark:text-slate-400">Client-side validated · Instant confirmation</p>
+                <button type="submit" class="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 dark:bg-[#22d3ee] px-6 py-3 text-sm font-semibold text-white dark:text-[#09090b] hover:bg-slate-800 dark:hover:bg-cyan-300 transition-colors shadow-sm">
+                  <span>Send Message</span>
+                  <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+                  </svg>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-slate-200 dark:border-[#27272a] bg-white/60 dark:bg-[#09090b]">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-sm font-mono text-slate-600 dark:text-slate-400 text-center sm:text-left">
+        &copy; 2026 Patrick B. Pascual. All rights reserved.
+      </p>
+      <div class="flex flex-wrap items-center justify-center gap-5 text-xs font-mono text-slate-500 dark:text-slate-400">
+        <a href="#about" class="hover:text-cyan-600 dark:hover:text-[#22d3ee] transition-colors">Top</a>
+        <a href="https://github.com/patrickpascual" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-600 dark:hover:text-[#22d3ee] transition-colors">GitHub</a>
+        <a href="https://linkedin.com/in/patrick-pascual" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-600 dark:hover:text-[#22d3ee] transition-colors">LinkedIn</a>
+        <a href="https://plv-blockgo.com" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-600 dark:hover:text-[#34d399] transition-colors">BlockGo</a>
+        <button id="footerDevLoginBtn" type="button" class="inline-flex items-center gap-1.5 text-slate-500 dark:text-slate-400 hover:text-cyan-600 dark:hover:text-[#22d3ee] transition-colors">
+          <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+          </svg>
+          <span id="footerDevLoginLabel">Developer Login</span>
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <div id="projectModal" class="hidden fixed inset-0 z-50 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div id="modalBackdrop" class="fixed inset-0 bg-slate-950/75 backdrop-blur-sm transition-opacity"></div>
+    <div class="flex min-h-full items-center justify-center p-4 sm:p-6">
+      <div class="relative w-full max-w-2xl rounded-2xl border border-slate-200 dark:border-[#27272a] bg-white dark:bg-[#111114] shadow-2xl overflow-hidden transform transition-all">
+        <div class="flex items-start justify-between gap-4 p-6 border-b border-slate-200 dark:border-[#27272a]">
+          <div>
+            <div class="flex flex-wrap items-center gap-2 mb-2">
+              <span id="modalCategory" class="rounded-md bg-cyan-500/10 border border-cyan-500/20 px-2.5 py-0.5 font-mono text-xs text-cyan-700 dark:text-[#22d3ee]"></span>
+              <span id="modalBadge" class="hidden rounded-md bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 font-mono text-xs text-emerald-700 dark:text-[#34d399]">Flagship System</span>
+            </div>
+            <h3 id="modalTitle" class="text-2xl font-bold text-slate-900 dark:text-white"></h3>
+          </div>
+          <button id="modalCloseBtn" type="button" aria-label="Close modal" class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-slate-200 dark:border-[#27272a] bg-slate-50 dark:bg-[#09090b] text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="p-6 space-y-5 max-h-[70vh] overflow-y-auto">
+          <div>
+            <h4 class="text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Project Overview</h4>
+            <p id="modalSummary" class="text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed"></p>
+          </div>
+
+          <div id="modalHighlightWrap" class="rounded-xl border border-cyan-500/20 bg-cyan-500/5 p-4">
+            <h4 class="text-xs font-mono uppercase tracking-wider text-cyan-700 dark:text-[#22d3ee] mb-1.5">Key Implementation Highlight</h4>
+            <p id="modalHighlight" class="text-sm text-slate-700 dark:text-slate-200 leading-relaxed"></p>
+          </div>
+
+          <div id="modalArchitectureWrap" class="rounded-xl border border-slate-200 dark:border-[#27272a] bg-slate-50 dark:bg-[#09090b] p-4">
+            <h4 class="text-xs font-mono uppercase tracking-wider text-emerald-700 dark:text-[#34d399] mb-1.5">System Architecture &amp; Stack Breakdown</h4>
+            <p id="modalArchitecture" class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed"></p>
+          </div>
+
+          <div>
+            <h4 class="text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2.5">Technologies Used</h4>
+            <div id="modalStack" class="flex flex-wrap gap-2"></div>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-3 px-6 py-4 border-t border-slate-200 dark:border-[#27272a] bg-slate-50/80 dark:bg-[#09090b]/80">
+          <button id="modalCopyBtn" type="button" class="inline-flex items-center gap-2 rounded-xl border border-slate-300 dark:border-[#27272a] bg-white dark:bg-[#111114] px-4 py-2 text-xs font-mono font-medium text-slate-700 dark:text-slate-300 hover:border-cyan-500/50 transition-colors">
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 7.5V6.108c0-1.135.845-2.098 1.976-2.192.373-.03.748-.057 1.123-.08M15.75 18H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08M15.75 18.75v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5A3.375 3.375 0 006.375 7.5H5.25" />
+            </svg>
+            Copy Summary
+          </button>
+
+          <div class="flex items-center gap-2">
+            <a id="modalLink" href="#" target="_blank" rel="noopener noreferrer" class="hidden inline-flex items-center gap-2 rounded-xl bg-slate-900 dark:bg-[#22d3ee] px-4 py-2 text-xs sm:text-sm font-semibold text-white dark:text-[#09090b] hover:bg-slate-800 dark:hover:bg-cyan-300 transition-colors">
+              <span id="modalLinkLabel">Visit Project</span>
+              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+              </svg>
+            </a>
+            <button id="modalCloseFooter" type="button" class="rounded-xl border border-slate-300 dark:border-[#27272a] px-4 py-2 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-200/70 dark:hover:bg-[#111114] transition-colors">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="authModal" class="hidden fixed inset-0 z-50 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="authModalTitle">
+    <div id="authModalBackdrop" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm"></div>
+    <div class="flex min-h-full items-center justify-center p-4">
+      <div class="relative w-full max-w-md rounded-2xl border border-slate-200 dark:border-[#27272a] bg-white dark:bg-[#111114] shadow-2xl overflow-hidden">
+        <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-[#27272a]">
+          <div class="flex items-center gap-2.5">
+            <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-cyan-500/15 text-cyan-600 dark:text-[#22d3ee] border border-cyan-500/30">
+              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+              </svg>
+            </span>
+            <div>
+              <h3 id="authModalTitle" class="text-base font-bold text-slate-900 dark:text-white">Developer Sign In</h3>
+              <p id="authModalSubtitle" class="text-[11px] font-mono text-slate-500 dark:text-slate-400">Portfolio CMS Access Control</p>
+            </div>
+          </div>
+          <button id="authCloseBtn" type="button" aria-label="Close authentication modal" class="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 dark:border-[#27272a] text-slate-500 hover:text-slate-900 dark:hover:text-white">
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="p-6 space-y-4">
+          <div id="authNoticeBox" class="rounded-xl border border-cyan-500/25 bg-cyan-500/10 p-3.5 text-xs text-slate-700 dark:text-slate-300 leading-relaxed"></div>
+
+          <form id="authForm" class="space-y-4">
+            <div>
+              <label for="authEmail" class="block text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Developer Email</label>
+              <input id="authEmail" type="email" required autocomplete="email" placeholder="patrick@domain.com" class="w-full rounded-xl border border-slate-300 dark:border-[#27272a] bg-slate-50 dark:bg-[#09090b] px-3.5 py-2.5 text-sm text-slate-900 dark:text-slate-100 focus:border-cyan-500 dark:focus:border-[#22d3ee] focus:outline-none">
+            </div>
+
+            <div>
+              <label for="authPassword" class="block text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Password</label>
+              <input id="authPassword" type="password" required minlength="6" autocomplete="current-password" placeholder="••••••••" class="w-full rounded-xl border border-slate-300 dark:border-[#27272a] bg-slate-50 dark:bg-[#09090b] px-3.5 py-2.5 text-sm text-slate-900 dark:text-slate-100 focus:border-cyan-500 dark:focus:border-[#22d3ee] focus:outline-none">
+            </div>
+
+            <div id="authConfirmWrap" class="hidden">
+              <label for="authPasswordConfirm" class="block text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Confirm Password</label>
+              <input id="authPasswordConfirm" type="password" minlength="6" autocomplete="new-password" placeholder="••••••••" class="w-full rounded-xl border border-slate-300 dark:border-[#27272a] bg-slate-50 dark:bg-[#09090b] px-3.5 py-2.5 text-sm text-slate-900 dark:text-slate-100 focus:border-cyan-500 dark:focus:border-[#22d3ee] focus:outline-none">
+            </div>
+
+            <p id="authErrorMsg" class="hidden rounded-lg border border-rose-500/30 bg-rose-500/10 px-3 py-2 text-xs text-rose-500 dark:text-rose-300 font-medium"></p>
+
+            <button id="authSubmitBtn" type="submit" class="w-full rounded-xl bg-slate-900 dark:bg-[#22d3ee] px-4 py-2.5 text-sm font-semibold text-white dark:text-[#09090b] hover:bg-slate-800 dark:hover:bg-cyan-300 transition-colors">
+              Sign In to CMS
+            </button>
+          </form>
+
+          <div class="pt-2 border-t border-slate-200 dark:border-[#27272a] flex flex-wrap items-center justify-between gap-2 text-xs">
+            <button id="authResetPwdBtn" type="button" class="font-mono text-slate-500 dark:text-slate-400 hover:text-cyan-600 dark:hover:text-[#22d3ee] transition-colors">
+              Send Password Reset
+            </button>
+            <button id="authOpenConfigBtn" type="button" class="font-mono text-amber-600 dark:text-amber-300 hover:underline">
+              Firebase / Vercel Setup
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="editorDrawer" class="hidden fixed inset-0 z-50 overflow-hidden" role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
+    <div id="drawerBackdrop" class="fixed inset-0 bg-slate-950/75 backdrop-blur-sm"></div>
+    <div class="fixed inset-y-0 right-0 flex max-w-full pl-10">
+      <div class="w-screen max-w-xl border-l border-slate-200 dark:border-[#27272a] bg-white dark:bg-[#111114] shadow-2xl flex flex-col">
+        <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-[#27272a]">
+          <div>
+            <span class="font-mono text-[11px] uppercase tracking-wider text-emerald-600 dark:text-[#34d399]">Live Portfolio CMS</span>
+            <h3 id="drawerTitle" class="text-lg font-bold text-slate-900 dark:text-white">Edit Content</h3>
+          </div>
+          <button id="drawerCloseBtn" type="button" aria-label="Close editor drawer" class="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 dark:border-[#27272a] text-slate-500 hover:text-slate-900 dark:hover:text-white">
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <form id="drawerForm" class="flex-1 overflow-y-auto p-6 space-y-5"></form>
+
+        <div class="px-6 py-4 border-t border-slate-200 dark:border-[#27272a] bg-slate-50/80 dark:bg-[#09090b]/80 flex items-center justify-end gap-3">
+          <button id="drawerCancelBtn" type="button" class="rounded-xl border border-slate-300 dark:border-[#27272a] px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-200/70 dark:hover:bg-[#111114] transition-colors">
+            Cancel
+          </button>
+          <button id="drawerSaveBtn" type="submit" form="drawerForm" class="rounded-xl bg-emerald-600 hover:bg-emerald-500 px-5 py-2 text-sm font-semibold text-white shadow-sm transition-colors">
+            Save &amp; Publish Live
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="configModal" class="hidden fixed inset-0 z-50 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="configModalTitle">
+    <div id="configModalBackdrop" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm"></div>
+    <div class="flex min-h-full items-center justify-center p-4">
+      <div class="relative w-full max-w-lg rounded-2xl border border-slate-200 dark:border-[#27272a] bg-white dark:bg-[#111114] shadow-2xl overflow-hidden">
+        <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-[#27272a]">
+          <div>
+            <h3 id="configModalTitle" class="text-base font-bold text-slate-900 dark:text-white">Firebase &amp; Vercel Deployment Config</h3>
+            <p class="text-xs font-mono text-slate-500 dark:text-slate-400">Connect your Firebase project for live cloud sync</p>
+          </div>
+          <button id="configCloseBtn" type="button" class="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 dark:border-[#27272a] text-slate-500 hover:text-slate-900 dark:hover:text-white">
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="p-6 space-y-4">
+          <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+            Paste your Firebase Web App config JSON below (<code class="font-mono text-cyan-600 dark:text-[#22d3ee]">apiKey</code>, <code class="font-mono text-cyan-600 dark:text-[#22d3ee]">authDomain</code>, <code class="font-mono text-cyan-600 dark:text-[#22d3ee]">projectId</code>, etc.). Enable <strong>Email/Password</strong> in Firebase Authentication and <strong>Cloud Firestore</strong>. When you click <strong>Export Standalone HTML</strong>, this config and your live content are embedded into <code class="font-mono">index.html</code> for Vercel.
+          </p>
+
+          <div>
+            <label for="firebaseConfigTextarea" class="block text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Firebase Config JSON</label>
+            <textarea id="firebaseConfigTextarea" rows="8" placeholder='{"apiKey":"...","authDomain":"...","projectId":"...","storageBucket":"...","messagingSenderId":"...","appId":"..."}' class="w-full rounded-xl border border-slate-300 dark:border-[#27272a] bg-slate-50 dark:bg-[#09090b] p-3 font-mono text-xs text-slate-900 dark:text-slate-100 focus:border-cyan-500 dark:focus:border-[#22d3ee] focus:outline-none"></textarea>
+          </div>
+
+          <div class="flex flex-wrap items-center justify-between gap-2 pt-2">
+            <button id="clearFirebaseConfigBtn" type="button" class="rounded-xl border border-rose-500/30 bg-rose-500/10 px-3.5 py-2 font-mono text-xs text-rose-600 dark:text-rose-300 hover:bg-rose-500/20 transition-colors">
+              Reset Custom Config
+            </button>
+            <div class="flex items-center gap-2">
+              <button id="saveFirebaseConfigBtn" type="button" class="rounded-xl bg-slate-900 dark:bg-[#22d3ee] px-4 py-2 text-xs font-semibold text-white dark:text-[#09090b] hover:bg-slate-800 dark:hover:bg-cyan-300 transition-colors">
+                Save &amp; Connect Firebase
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="jsonModal" class="hidden fixed inset-0 z-50 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="jsonModalTitle">
+    <div id="jsonModalBackdrop" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm"></div>
+    <div class="flex min-h-full items-center justify-center p-4">
+      <div class="relative w-full max-w-2xl rounded-2xl border border-slate-200 dark:border-[#27272a] bg-white dark:bg-[#111114] shadow-2xl overflow-hidden">
+        <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-[#27272a]">
+          <div>
+            <h3 id="jsonModalTitle" class="text-base font-bold text-slate-900 dark:text-white">Export / Import Portfolio JSON</h3>
+            <p class="text-xs font-mono text-slate-500 dark:text-slate-400">Backup or batch-update portfolio schema</p>
+          </div>
+          <button id="jsonCloseBtn" type="button" class="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 dark:border-[#27272a] text-slate-500 hover:text-slate-900 dark:hover:text-white">
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="p-6 space-y-4">
+          <textarea id="jsonPortfolioTextarea" rows="12" class="w-full rounded-xl border border-slate-300 dark:border-[#27272a] bg-slate-50 dark:bg-[#09090b] p-3 font-mono text-xs text-slate-900 dark:text-slate-100 focus:border-cyan-500 dark:focus:border-[#22d3ee] focus:outline-none"></textarea>
+
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <button id="downloadJsonBtn" type="button" class="rounded-xl border border-slate-300 dark:border-[#27272a] bg-white dark:bg-[#09090b] px-3.5 py-2 font-mono text-xs text-slate-700 dark:text-slate-200 hover:border-cyan-500/50 transition-colors">
+                Download .json
+              </button>
+              <button id="copyJsonBtn" type="button" class="rounded-xl border border-slate-300 dark:border-[#27272a] bg-white dark:bg-[#09090b] px-3.5 py-2 font-mono text-xs text-slate-700 dark:text-slate-200 hover:border-cyan-500/50 transition-colors">
+                Copy JSON
+              </button>
+            </div>
+            <button id="applyJsonImportBtn" type="button" class="rounded-xl bg-emerald-600 hover:bg-emerald-500 px-4 py-2 text-xs font-semibold text-white transition-colors">
+              Import &amp; Publish JSON
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="confirmModal" class="hidden fixed inset-0 z-50 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="confirmModalTitle">
+    <div id="confirmModalBackdrop" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm"></div>
+    <div class="flex min-h-full items-center justify-center p-4">
+      <div class="relative w-full max-w-sm rounded-2xl border border-slate-200 dark:border-[#27272a] bg-white dark:bg-[#111114] p-6 shadow-2xl space-y-4">
+        <h3 id="confirmModalTitle" class="text-lg font-bold text-slate-900 dark:text-white">Confirm Deletion</h3>
+        <p id="confirmModalMessage" class="text-sm text-slate-600 dark:text-slate-400">Are you sure you want to delete this item?</p>
+        <div class="flex items-center justify-end gap-2.5 pt-2">
+          <button id="confirmCancelBtn" type="button" class="rounded-xl border border-slate-300 dark:border-[#27272a] px-4 py-2 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-zinc-900">
+            Cancel
+          </button>
+          <button id="confirmAcceptBtn" type="button" class="rounded-xl bg-rose-600 hover:bg-rose-500 px-4 py-2 text-xs font-semibold text-white">
+            Delete Item
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" role="status" aria-live="polite" class="pointer-events-none fixed bottom-5 right-5 z-50 translate-y-4 opacity-0 transition-all duration-300">
+    <div id="toastInner" class="flex items-center gap-3 rounded-xl border border-emerald-500/30 bg-slate-900 dark:bg-[#111114] px-4 py-3 text-sm text-slate-100 shadow-xl">
+      <span id="toastDot" class="h-2.5 w-2.5 rounded-full bg-emerald-400 shrink-0"></span>
+      <span id="toastMessage" class="font-medium"></span>
+    </div>
+  </div>
+
+  <script id="embeddedConfigScript">
+    window.__EMBEDDED_FIREBASE_CONFIG__ = null;
+  </script>
+
+  <script id="defaultPortfolioScript">
+    window.__DEFAULT_PORTFOLIO_DATA__ = {
+      profile: {
+        name: "Patrick B. Pascual",
+        headline: "Full-Stack Software Engineer & Systems Administrator",
+        location: "Valenzuela, Metro Manila, Philippines",
+        bio: "BSIT graduate/student at Pamantasan ng Lungsod ng Valenzuela (PLV) specializing in full-stack web engineering (C# ASP.NET Core, React, Node.js, Go, Python), cloud-native container orchestration (Kubernetes, GKE Autopilot, Docker), blockchain systems (Hyperledger Fabric), game development (Unity), and enterprise IT systems administration.",
+        primaryLinkLabel: "plv-blockgo.com",
+        primaryLinkUrl: "https://plv-blockgo.com"
+      },
+      terminal: {
+        host: "patrick@plv-node:~",
+        footerLeft: "Region: asia-southeast1 (PH)",
+        footerRight: "uptime 99.9%",
+        profileRows: [
+          { key: "user", value: "patrick.pascual", accent: "default" },
+          { key: "institution", value: "BSIT @ PLV", accent: "default" },
+          { key: "core_stack", value: "C# / .NET, React, Go, GKE / K8s, Fabric, Unity", accent: "tags" },
+          { key: "availability", value: "Open to IT & Dev Roles", accent: "emerald" }
+        ],
+        infraRows: [
+          { key: "cluster", value: "GKE Autopilot (Serverless)", accent: "cyan" },
+          { key: "ledger", value: "Hyperledger Fabric + IPFS", accent: "default" },
+          { key: "os_ops", value: "Win Server/11 · WSL2/Linux", accent: "default" },
+          { key: "endpoint", value: "plv-blockgo.com [200 OK]", accent: "emerald" }
+        ]
+      },
+      experiences: [
+        {
+          id: "exp-jeonsoft",
+          role: "System Administrator",
+          company: "Jeonsoft Corp. - Internship",
+          period: "June 16, 2026 - October 8, 2026",
+          accent: "cyan",
+          bullets: [
+            "Administered user accounts, permissions, and access credentials, including IT onboarding setup for new employees.",
+            "Provided tier 1 IT support, hardware/software installation, configuration, and preventive maintenance.",
+            "Assisted with network administration, configuration, and troubleshooting.",
+            "Managed and monitored company IT assets, equipment, and client databases.",
+            "Maintained technical documentation, system records, and supported various system administration projects."
+          ]
+        },
+        {
+          id: "exp-nettex",
+          role: "Technical Data Support (Project)",
+          company: "Nettex Mfg.&Export Corp.",
+          period: "October 13, 2024 - October 18, 2024",
+          accent: "emerald",
+          bullets: [
+            "Logic Refinement: Debugged complex formulas and implemented Automated Data Routing using nested logical functions to categorize production output based on unit volume."
+          ]
+        }
+      ],
+      projects: [
+        {
+          id: "blockgo",
+          title: "BlockGo",
+          category: "Full-Stack & Cloud",
+          flagship: true,
+          summary: "Web-based system for managing grade records utilizing blockchain technology using Hyperledger Fabric framework. Architected and deployed the containerized system using Google Kubernetes Engine (GKE) Autopilot, optimizing compute resources via serverless auto-scaling during active development.",
+          highlight: "Containerized polyglot deployment orchestrated on Google Kubernetes Engine (GKE) Autopilot with serverless auto-scaling and production routing at plv-blockgo.com.",
+          architecture: "Permissioned Hyperledger Fabric ledger with Go chaincode, IPFS off-chain document storage, CouchDB world state, PostgreSQL relational persistence, Node.js gateway middleware, C# ASP.NET Core services, and a React frontend running on GKE Autopilot.",
+          stack: ["Hyperledger Fabric", "Go", "GKE Autopilot", "Kubernetes", "C# ASP.NET Core", "React", "IPFS", "CouchDB", "PostgreSQL"],
+          link: "https://plv-blockgo.com",
+          linkLabel: "Visit plv-blockgo.com"
+        },
+        {
+          id: "surveyanalytics",
+          title: "SurveyAnalytics",
+          category: "Full-Stack & Cloud",
+          flagship: false,
+          summary: "Website for SurveyAnalytics built on the ASP.NET Framework for effective survey management. Implemented robust security protocols, including secure user authentication and data validation, to protect sensitive survey response data.",
+          highlight: "Enforced stateless JWT authentication, strict server-side validation rules, and automated PDF reporting for protected survey datasets.",
+          architecture: "ASP.NET Core backend connected to Microsoft SQL Server with JWT bearer authentication, layered input validation filters, and QuestPDF analytical report generation.",
+          stack: ["C#", "ASP.NET Core", "JWT Auth", "SQL Server", "QuestPDF"],
+          link: "",
+          linkLabel: ""
+        },
+        {
+          id: "bayanihan-builders",
+          title: "Bayanihan Builders",
+          category: "Game Dev",
+          flagship: false,
+          summary: "Collaborative building game developed using a Unity-based framework, accessible on itch.io.",
+          highlight: "Cooperative construction systems, resource pooling, and interactive 2D UI workflows built in Unity and C#.",
+          architecture: "Modular Unity C# game loop managing cooperative build states, event triggers, resource counters, and responsive 2D UI overlays published for itch.io.",
+          stack: ["Unity", "C#", "2D Game Mechanics", "UI Systems"],
+          link: "https://itch.io",
+          linkLabel: "Play on itch.io"
+        },
+        {
+          id: "tondorift",
+          title: "TondoRift",
+          category: "Game Dev",
+          flagship: false,
+          summary: "Fighting game designed with a Unity-based framework, available on itch.io.",
+          highlight: "Structured turn-based combat state machine and character selection roster engineered in Unity and C#.",
+          architecture: "Unity C# finite-state combat architecture governing character selection, turn sequencing, move resolution, and match HUD feedback.",
+          stack: ["Unity", "C#", "Turn-Based Combat", "Character Systems"],
+          link: "https://itch.io",
+          linkLabel: "Play on itch.io"
+        }
+      ],
+      skills: [
+        {
+          id: "skill-sys",
+          title: "Systems & Cloud Infrastructure",
+          subtitle: "OS · Containers · Networking · Monitoring",
+          accent: "cyan",
+          span: 7,
+          items: [
+            "Linux/WSL2",
+            "Windows Server/Admin",
+            "Docker",
+            "Kubernetes / GKE Autopilot",
+            "Network Configuration & DNS",
+            "IT Asset & DB Monitoring"
+          ]
+        },
+        {
+          id: "skill-backend",
+          title: "Backend & Databases",
+          subtitle: "APIs · Runtimes · Relational & NoSQL",
+          accent: "emerald",
+          span: 5,
+          items: [
+            "C# / ASP.NET Core",
+            "Node.js",
+            "Go",
+            "Python",
+            "Microsoft SQL Server",
+            "PostgreSQL",
+            "CouchDB"
+          ]
+        },
+        {
+          id: "skill-frontend",
+          title: "Frontend & Game Engines",
+          subtitle: "Web Interfaces · 2D Game Systems",
+          accent: "emerald",
+          span: 5,
+          items: [
+            "React",
+            "Tailwind CSS",
+            "HTML5/CSS3/JS",
+            "Unity 2D",
+            "QuestPDF / ClosedXML"
+          ]
+        },
+        {
+          id: "skill-blockchain",
+          title: "Blockchain & Automation",
+          subtitle: "Distributed Ledgers · Sync & Data Routing",
+          accent: "cyan",
+          span: 7,
+          items: [
+            "Hyperledger Fabric",
+            "IPFS",
+            "rclone Scripting",
+            "Excel Logical Routing & Formulas"
+          ]
+        }
+      ],
+      education: {
+        badge: "Undergraduate Degree",
+        degree: "Bachelor of Science in Information Technology (BSIT)",
+        institution: "Pamantasan ng Lungsod ng Valenzuela (PLV)",
+        location: "Valenzuela City, Philippines",
+        shortTag: "BSIT · PLV"
+      },
+      seminars: [
+        {
+          id: "sem-1",
+          title: "Strategic Project Management: Aligning Projects With Organizational Goals",
+          institution: "Pamantasan ng Lungsod ng Valenzuela",
+          date: "April 24, 2024",
+          category: "Project Management",
+          accent: "cyan"
+        },
+        {
+          id: "sem-2",
+          title: "Press Start to Level Up: Best Practices in Game Testing",
+          institution: "Pamantasan ng Lungsod ng Valenzuela",
+          date: "April 24, 2024",
+          category: "Game QA & Testing",
+          accent: "emerald"
+        },
+        {
+          id: "sem-3",
+          title: "Launch Your Tech Career: The High Demand Skill-set of a Full Stack Web Developer",
+          institution: "Pamantasan ng Lungsod ng Valenzuela",
+          date: "April 25, 2024",
+          category: "Full-Stack Engineering",
+          accent: "cyan"
+        },
+        {
+          id: "sem-4",
+          title: "Securing Connections: Strategies for Cybersecurity and Network Operations",
+          institution: "Pamantasan ng Lungsod ng Valenzuela",
+          date: "April 25, 2024",
+          category: "Cybersecurity & NetOps",
+          accent: "emerald"
+        }
+      ],
+      contacts: [
+        {
+          id: "contact-email",
+          label: "Email",
+          display: "patrick.pascual@email.com",
+          copyValue: "patrick.pascual@email.com",
+          url: "",
+          icon: "email"
+        },
+        {
+          id: "contact-location",
+          label: "Location",
+          display: "Valenzuela, Metro Manila, Philippines",
+          copyValue: "Valenzuela, Metro Manila, Philippines",
+          url: "",
+          icon: "location"
+        },
+        {
+          id: "contact-github",
+          label: "GitHub",
+          display: "github.com/patrickpascual",
+          copyValue: "https://github.com/patrickpascual",
+          url: "https://github.com/patrickpascual",
+          icon: "github"
+        },
+        {
+          id: "contact-linkedin",
+          label: "LinkedIn",
+          display: "linkedin.com/in/patrick-pascual",
+          copyValue: "https://linkedin.com/in/patrick-pascual",
+          url: "https://linkedin.com/in/patrick-pascual",
+          icon: "linkedin"
+        },
+        {
+          id: "contact-itch",
+          label: "itch.io",
+          display: "itch.io (Unity Games)",
+          copyValue: "https://itch.io",
+          url: "https://itch.io",
+          icon: "itch"
+        }
+      ]
+    };
+  </script>
+
+  <script type="module">
+    import { initializeApp, getApps, deleteApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import {
+      getAuth,
+      signInAnonymously,
+      signInWithCustomToken,
+      signInWithEmailAndPassword,
+      createUserWithEmailAndPassword,
+      sendPasswordResetEmail,
+      signOut,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      getDoc,
+      setDoc,
+      onSnapshot
+    } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    const appId = typeof __app_id !== "undefined" ? __app_id : "patrick-pascual-portfolio";
+    let portfolioData = JSON.parse(JSON.stringify(window.__DEFAULT_PORTFOLIO_DATA__));
+    let activeProjectFilter = "All";
+    let activeSeminarFilter = "All";
+    let activeTerminalTab = "profile";
+    let activeModalProject = null;
+    let toastTimer = null;
+
+    let firebaseApp = null;
+    let auth = null;
+    let db = null;
+    let portfolioDocRef = null;
+    let metaDocRef = null;
+    let unsubPortfolio = null;
+    let unsubMeta = null;
+
+    let metaState = null;
+    let currentAuthUser = null;
+    let isAdminVerified = false;
+    let firebaseReady = false;
+    let activeDrawerContext = null;
+    let pendingConfirmCallback = null;
+
+    const htmlEl = document.documentElement;
+    const adminToolbar = document.getElementById("adminToolbar");
+    const mainHeader = document.getElementById("mainHeader");
+    const adminUserEmail = document.getElementById("adminUserEmail");
+    const syncStatusText = document.getElementById("syncStatusText");
+    const navDevTrigger = document.getElementById("navDevTrigger");
+    const navDevTriggerLabel = document.getElementById("navDevTriggerLabel");
+    const footerDevLoginBtn = document.getElementById("footerDevLoginBtn");
+    const footerDevLoginLabel = document.getElementById("footerDevLoginLabel");
+
+    function showToast(message, type) {
+      const toast = document.getElementById("toast");
+      const toastInner = document.getElementById("toastInner");
+      const toastDot = document.getElementById("toastDot");
+      const toastMessage = document.getElementById("toastMessage");
+
+      toastMessage.textContent = message;
+      if (type === "error") {
+        toastInner.className = "flex items-center gap-3 rounded-xl border border-rose-500/40 bg-slate-900 dark:bg-[#111114] px-4 py-3 text-sm text-slate-100 shadow-xl";
+        toastDot.className = "h-2.5 w-2.5 rounded-full bg-rose-400 shrink-0";
+      } else if (type === "warn") {
+        toastInner.className = "flex items-center gap-3 rounded-xl border border-amber-500/40 bg-slate-900 dark:bg-[#111114] px-4 py-3 text-sm text-slate-100 shadow-xl";
+        toastDot.className = "h-2.5 w-2.5 rounded-full bg-amber-400 shrink-0";
+      } else {
+        toastInner.className = "flex items-center gap-3 rounded-xl border border-emerald-500/40 bg-slate-900 dark:bg-[#111114] px-4 py-3 text-sm text-slate-100 shadow-xl";
+        toastDot.className = "h-2.5 w-2.5 rounded-full bg-emerald-400 shrink-0";
+      }
+
+      toast.classList.remove("translate-y-4", "opacity-0");
+      toast.classList.add("translate-y-0", "opacity-100");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function () {
+        toast.classList.remove("translate-y-0", "opacity-100");
+        toast.classList.add("translate-y-4", "opacity-0");
+      }, 3400);
+    }
+
+    function setSyncStatus(text) {
+      if (syncStatusText) {
+        syncStatusText.textContent = text;
+      }
+    }
+
+    function escapeHtml(str) {
+      return String(str == null ? "" : str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function copyText(text, label) {
+      try {
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.setAttribute("readonly", "");
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        ta.setSelectionRange(0, text.length);
+        const ok = document.execCommand("copy");
+        document.body.removeChild(ta);
+        if (ok) {
+          showToast((label || "Text") + " copied to clipboard.", "success");
+        } else {
+          showToast("Unable to copy to clipboard.", "error");
+        }
+      } catch (e) {
+        showToast("Clipboard action failed.", "error");
+      }
+    }
+
+    function initTheme() {
+      try {
+        const saved = localStorage.getItem("pp_theme");
+        if (saved === "light") {
+          htmlEl.classList.remove("dark");
+        } else {
+          htmlEl.classList.add("dark");
+        }
+      } catch (e) {
+        htmlEl.classList.add("dark");
+      }
+    }
+
+    document.getElementById("themeToggle").addEventListener("click", function () {
+      const isDark = htmlEl.classList.toggle("dark");
+      try {
+        localStorage.setItem("pp_theme", isDark ? "dark" : "light");
+      } catch (e) {}
+      showToast(isDark ? "Switched to Dark Mode." : "Switched to Light Mode.", "success");
+    });
+
+    function startPhClock() {
+      const clockEl = document.getElementById("phClock");
+      function tick() {
+        try {
+          const now = new Date();
+          const formatted = now.toLocaleTimeString("en-PH", {
+            timeZone: "Asia/Manila",
+            hour12: false,
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit"
+          });
+          clockEl.textContent = formatted;
+        } catch (e) {
+          clockEl.textContent = "UTC+8";
+        }
+      }
+      tick();
+      setInterval(tick, 1000);
+    }
+
+    const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+    const mobileMenu = document.getElementById("mobileMenu");
+    const menuIconOpen = document.getElementById("menuIconOpen");
+    const menuIconClose = document.getElementById("menuIconClose");
+
+    mobileMenuBtn.addEventListener("click", function () {
+      const expanded = mobileMenuBtn.getAttribute("aria-expanded") === "true";
+      mobileMenuBtn.setAttribute("aria-expanded", String(!expanded));
+      mobileMenu.classList.toggle("hidden");
+      menuIconOpen.classList.toggle("hidden");
+      menuIconClose.classList.toggle("hidden");
+    });
+
+    document.querySelectorAll(".mobile-nav-link").forEach(function (link) {
+      link.addEventListener("click", function () {
+        mobileMenu.classList.add("hidden");
+        menuIconOpen.classList.remove("hidden");
+        menuIconClose.classList.add("hidden");
+        mobileMenuBtn.setAttribute("aria-expanded", "false");
+      });
+    });
+
+    function renderHeroAndTerminal() {
+      const p = portfolioData.profile;
+      const t = portfolioData.terminal;
+
+      document.getElementById("heroName").textContent = p.name;
+      document.getElementById("heroHeadline").textContent = p.headline;
+      document.getElementById("heroLocation").textContent = p.location;
+      document.getElementById("heroBio").textContent = p.bio;
+
+      const primaryLink = document.getElementById("heroPrimaryLink");
+      const primaryLinkLabel = document.getElementById("heroPrimaryLinkLabel");
+      if (p.primaryLinkUrl) {
+        primaryLink.href = p.primaryLinkUrl;
+        primaryLinkLabel.textContent = p.primaryLinkLabel || p.primaryLinkUrl;
+        primaryLink.classList.remove("hidden");
+      } else {
+        primaryLink.classList.add("hidden");
+      }
+
+      document.getElementById("terminalHost").textContent = t.host;
+      document.getElementById("terminalFooterLeft").textContent = t.footerLeft;
+      document.getElementById("terminalFooterRight").textContent = t.footerRight;
+
+      const rows = activeTerminalTab === "infra" ? (t.infraRows || []) : (t.profileRows || []);
+      document.getElementById("terminalCommand").textContent = activeTerminalTab === "infra" ? "kubectl get nodes --ops" : "status --profile";
+
+      const bodyEl = document.getElementById("terminalMetricsBody");
+      bodyEl.innerHTML = rows.map(function (row, idx) {
+        const isLast = idx === rows.length - 1;
+        const borderClass = isLast ? "pt-0.5" : "border-b border-slate-200/80 dark:border-[#27272a]/80 pb-2.5";
+
+        if (row.accent === "tags") {
+          const tags = String(row.value).split(",").map(function (s) { return s.trim(); }).filter(Boolean);
+          return (
+            '<div class="flex flex-col gap-1.5 ' + borderClass + '">' +
+              '<span class="text-slate-500">' + escapeHtml(row.key) + '</span>' +
+              '<div class="flex flex-wrap gap-1.5">' +
+                tags.map(function (tag) {
+                  return '<span class="px-2 py-0.5 rounded-md bg-slate-200/80 dark:bg-[#111114] border border-slate-300 dark:border-[#27272a] text-slate-800 dark:text-slate-200 text-xs">' + escapeHtml(tag) + '</span>';
+                }).join("") +
+              '</div>' +
+            '</div>'
+          );
+        }
+
+        let valHtml = '<span class="text-slate-900 dark:text-slate-100 font-medium">' + escapeHtml(row.value) + '</span>';
+        if (row.accent === "emerald") {
+          valHtml = '<span class="inline-flex items-center gap-1.5 text-emerald-700 dark:text-[#34d399] font-medium"><span class="h-2 w-2 rounded-full bg-emerald-500 dark:bg-[#34d399]"></span>' + escapeHtml(row.value) + '</span>';
+        } else if (row.accent === "cyan") {
+          valHtml = '<span class="text-cyan-700 dark:text-[#22d3ee] font-medium">' + escapeHtml(row.value) + '</span>';
+        }
+
+        return (
+          '<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 ' + borderClass + '">' +
+            '<span class="text-slate-500">' + escapeHtml(row.key) + '</span>' +
+            valHtml +
+          '</div>'
+        );
+      }).join("");
+    }
+
+    document.querySelectorAll(".term-tab").forEach(function (tab) {
+      tab.addEventListener("click", function () {
+        activeTerminalTab = tab.getAttribute("data-term-tab");
+        document.querySelectorAll(".term-tab").forEach(function (t) {
+          const active = t === tab;
+          t.className = active
+            ? "term-tab rounded-md px-2.5 py-1 text-[11px] font-mono bg-cyan-500/15 text-cyan-700 dark:text-[#22d3ee] border border-cyan-500/30 transition-colors"
+            : "term-tab rounded-md px-2.5 py-1 text-[11px] font-mono text-slate-500 dark:text-slate-400 border border-transparent hover:border-slate-300 dark:hover:border-[#27272a] transition-colors";
+        });
+        renderHeroAndTerminal();
+      });
+    });
+
+    function buildAdminItemControls(section, index, total) {
+      if (!isAdminVerified) return "";
+      return (
+        '<div class="flex flex-wrap items-center gap-1.5 pt-3 mt-3 border-t border-dashed border-emerald-500/30">' +
+          '<span class="font-mono text-[10px] uppercase tracking-wider text-emerald-600 dark:text-emerald-400 mr-auto">CMS Controls</span>' +
+          '<button type="button" data-item-action="up" data-section="' + section + '" data-index="' + index + '" ' + (index === 0 ? "disabled" : "") + ' class="rounded-lg border border-slate-200 dark:border-zinc-700 px-2 py-1 font-mono text-[11px] text-slate-600 dark:text-slate-300 hover:border-cyan-500 disabled:opacity-35">↑</button>' +
+          '<button type="button" data-item-action="down" data-section="' + section + '" data-index="' + index + '" ' + (index === total - 1 ? "disabled" : "") + ' class="rounded-lg border border-slate-200 dark:border-zinc-700 px-2 py-1 font-mono text-[11px] text-slate-600 dark:text-slate-300 hover:border-cyan-500 disabled:opacity-35">↓</button>' +
+          '<button type="button" data-item-action="edit" data-section="' + section + '" data-index="' + index + '" class="rounded-lg bg-cyan-500/15 border border-cyan-500/30 px-2.5 py-1 font-mono text-[11px] font-medium text-cyan-700 dark:text-cyan-300 hover:bg-cyan-500/25">Edit</button>' +
+          '<button type="button" data-item-action="delete" data-section="' + section + '" data-index="' + index + '" class="rounded-lg bg-rose-500/15 border border-rose-500/30 px-2.5 py-1 font-mono text-[11px] font-medium text-rose-600 dark:text-rose-300 hover:bg-rose-500/25">Delete</button>' +
+        '</div>'
+      );
+    }
+
+    function renderExperiences() {
+      const list = portfolioData.experiences || [];
+      const container = document.getElementById("experienceTimeline");
+
+      container.innerHTML = list.map(function (exp, idx) {
+        const isEmerald = exp.accent === "emerald";
+        const dotRing = isEmerald ? "bg-emerald-500/20 dark:bg-[#34d399]/20" : "bg-cyan-500/20 dark:bg-[#22d3ee]/20";
+        const dotCore = isEmerald ? "bg-emerald-600 dark:bg-[#34d399]" : "bg-cyan-600 dark:bg-[#22d3ee]";
+        const hoverBorder = isEmerald ? "hover:border-emerald-500/40 dark:hover:border-[#34d399]/40" : "hover:border-cyan-500/40 dark:hover:border-[#22d3ee]/40";
+        const companyColor = isEmerald ? "text-emerald-700 dark:text-[#34d399]" : "text-cyan-700 dark:text-[#22d3ee]";
+
+        const bulletsHtml = (exp.bullets || []).map(function (b) {
+          return (
+            '<li class="flex items-start gap-3">' +
+              '<svg class="h-5 w-5 shrink-0 text-emerald-600 dark:text-[#34d399] mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">' +
+                '<path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />' +
+              '</svg>' +
+              '<span>' + escapeHtml(b) + '</span>' +
+            '</li>'
+          );
+        }).join("");
+
+        return (
+          '<article class="relative">' +
+            '<span class="absolute -left-[33px] sm:-left-[41px] top-1.5 flex h-4 w-4 items-center justify-center rounded-full ' + dotRing + ' ring-4 ring-slate-50 dark:ring-[#09090b]">' +
+              '<span class="h-2 w-2 rounded-full ' + dotCore + '"></span>' +
+            '</span>' +
+            '<div class="rounded-2xl border border-slate-200 dark:border-[#27272a] bg-white dark:bg-[#111114] p-6 sm:p-8 ' + hoverBorder + ' transition-colors shadow-sm">' +
+              '<div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-5">' +
+                '<div>' +
+                  '<h3 class="text-xl font-bold text-slate-900 dark:text-white">' + escapeHtml(exp.role) + '</h3>' +
+                  '<p class="text-sm sm:text-base font-medium ' + companyColor + ' mt-0.5">' + escapeHtml(exp.company) + '</p>' +
+                '</div>' +
+                '<span class="inline-flex items-center gap-1.5 self-start rounded-lg border border-slate-200 dark:border-[#27272a] bg-slate-100 dark:bg-[#09090b] px-3 py-1.5 font-mono text-xs text-slate-700 dark:text-slate-300">' +
+                  '<svg class="h-3.5 w-3.5 text-cyan-600 dark:text-[#22d3ee]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">' +
+                    '<path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />' +
+                  '</svg>' +
+                  escapeHtml(exp.period) +
+                '</span>' +
+              '</div>' +
+              '<ul class="space-y-3 text-sm sm:text-base text-slate-600 dark:text-slate-300">' + bulletsHtml + '</ul>' +
+              buildAdminItemControls("experiences", idx, list.length) +
+            '</div>' +
+          '</article>'
+        );
+      }).join("");
+    }
+
+    function renderProjects() {
+      const list = portfolioData.projects || [];
+      const baseCats = ["All", "Full-Stack & Cloud", "Game Dev", "Tools & Automation"];
+      list.forEach(function (p) {
+        if (p.category && baseCats.indexOf(p.category) === -1) {
+          baseCats.push(p.category);
+        }
+      });
+
+      if (baseCats.indexOf(activeProjectFilter) === -1) {
+        activeProjectFilter = "All";
+      }
+
+      const filtersEl = document.getElementById("projectFilters");
+      filtersEl.innerHTML = baseCats.map(function (cat) {
+        const selected = cat === activeProjectFilter;
+        return (
+          '<button type="button" data-project-filter="' + escapeHtml(cat) + '" role="tab" aria-selected="' + selected + '" class="proj-filter-btn rounded-xl px-4 py-2 text-xs sm:text-sm font-medium transition-all ' +
+            (selected
+              ? 'bg-slate-900 dark:bg-[#22d3ee] text-white dark:text-[#09090b] shadow-sm'
+              : 'border border-slate-200 dark:border-[#27272a] bg-white dark:bg-[#111114] text-slate-700 dark:text-slate-300 hover:border-cyan-500/50') +
+          '">' + escapeHtml(cat) + '</button>'
+        );
+      }).join("");
+
+      filtersEl.querySelectorAll(".proj-filter-btn").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          activeProjectFilter = btn.getAttribute("data-project-filter");
+          renderProjects();
+        });
+      });
+
+      const filtered = activeProjectFilter === "All"
+        ? list
+        : list.filter(function (p) { return p.category === activeProjectFilter; });
+
+      const gridEl = document.getElementById("projectsGrid");
+      if (filtered.length === 0) {
+        gridEl.innerHTML = '<div class="col-span-full rounded-2xl border border-dashed border-slate-300 dark:border-[#27272a] p-10 text-center font-mono text-sm text-slate-500 dark:text-slate-400">No projects in this category yet.</div>';
+        return;
+      }
+
+      gridEl.innerHTML = filtered.map(function (project) {
+        const realIndex = list.findIndex(function (item) { return item.id === project.id; });
+        const isFlagship = Boolean(project.flagship);
+        const spanClass = isFlagship && activeProjectFilter === "All" ? "md:col-span-2 lg:col-span-2" : "";
+        const stackArr = project.stack || [];
+        const visibleStack = stackArr.slice(0, isFlagship ? 9 : 6);
+        const remaining = stackArr.length - visibleStack.length;
+
+        const badgesHtml = visibleStack.map(function (tech) {
+          return '<span class="px-2.5 py-1 rounded-md text-[11px] font-mono bg-slate-100 dark:bg-[#09090b] border border-slate-200 dark:border-[#27272a] text-slate-700 dark:text-slate-300">' + escapeHtml(tech) + '</span>';
+        }).join("") + (remaining > 0 ? '<span class="px-2.5 py-1 rounded-md text-[11px] font-mono bg-cyan-500/10 border border-cyan-500/20 text-cyan-700 dark:text-[#22d3ee]">+' + remaining + '</span>' : "");
+
+        const externalLinkHtml = project.link
+          ? '<a href="' + escapeHtml(project.link) + '" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 dark:border-[#27272a] bg-slate-50 dark:bg-[#09090b] px-3.5 py-2 text-xs font-semibold text-slate-800 dark:text-slate-200 hover:border-emerald-500/60 dark:hover:border-[#34d399]/60 hover:text-emerald-700 dark:hover:text-[#34d399] transition-colors">' +
+              '<span>' + escapeHtml(project.linkLabel || "Live Link") + '</span>' +
+              '<svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" /></svg>' +
+            '</a>'
+          : "";
+
+        return (
+          '<article class="group flex flex-col justify-between rounded-2xl border ' +
+            (isFlagship
+              ? 'border-cyan-500/40 dark:border-[#22d3ee]/40 bg-gradient-to-br from-white via-white to-cyan-50/40 dark:from-[#111114] dark:via-[#111114] dark:to-cyan-950/20'
+              : 'border-slate-200 dark:border-[#27272a] bg-white dark:bg-[#111114]') +
+            ' p-6 hover:border-cyan-500/60 dark:hover:border-[#22d3ee]/60 hover:-translate-y-0.5 transition-all duration-300 shadow-sm ' + spanClass + '">' +
+            '<div>' +
+              '<div class="flex flex-wrap items-center justify-between gap-2 mb-4">' +
+                '<span class="rounded-lg bg-slate-100 dark:bg-[#09090b] border border-slate-200 dark:border-[#27272a] px-2.5 py-1 font-mono text-[11px] text-slate-600 dark:text-slate-400">' + escapeHtml(project.category) + '</span>' +
+                (isFlagship
+                  ? '<span class="inline-flex items-center gap-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 px-2.5 py-1 font-mono text-[11px] font-medium text-emerald-700 dark:text-[#34d399]">' +
+                      '<span class="h-1.5 w-1.5 rounded-full bg-emerald-500 dark:bg-[#34d399]"></span>Flagship System' +
+                    '</span>'
+                  : '') +
+              '</div>' +
+              '<h3 class="text-xl font-bold text-slate-900 dark:text-white group-hover:text-cyan-700 dark:group-hover:text-[#22d3ee] transition-colors">' + escapeHtml(project.title) + '</h3>' +
+              '<p class="mt-2.5 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">' + escapeHtml(project.summary) + '</p>' +
+              '<div class="flex flex-wrap gap-1.5 mt-5">' + badgesHtml + '</div>' +
+            '</div>' +
+            '<div>' +
+              '<div class="mt-6 pt-4 border-t border-slate-200/80 dark:border-[#27272a]/80 flex flex-wrap items-center justify-between gap-3">' +
+                '<button type="button" data-open-project="' + escapeHtml(project.id) + '" class="open-modal-btn inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-cyan-700 dark:text-[#22d3ee] hover:text-cyan-500 dark:hover:text-cyan-300 transition-colors">' +
+                  '<span>Architecture Details</span>' +
+                  '<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>' +
+                '</button>' +
+                externalLinkHtml +
+              '</div>' +
+              buildAdminItemControls("projects", realIndex, list.length) +
+            '</div>' +
+          '</article>'
+        );
+      }).join("");
+
+      gridEl.querySelectorAll(".open-modal-btn").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          openProjectModal(btn.getAttribute("data-open-project"));
+        });
+      });
+    }
+
+    function renderSkills() {
+      const list = portfolioData.skills || [];
+      const gridEl = document.getElementById("skillsGrid");
+
+      gridEl.innerHTML = list.map(function (group, idx) {
+        const isEmerald = group.accent === "emerald";
+        const spanClass = Number(group.span) === 5 ? "md:col-span-5" : "md:col-span-7";
+        const hoverBorder = isEmerald ? "hover:border-emerald-500/40 dark:hover:border-[#34d399]/40" : "hover:border-cyan-500/40 dark:hover:border-[#22d3ee]/40";
+        const iconBox = isEmerald
+          ? "bg-emerald-500/10 text-emerald-600 dark:text-[#34d399] border-emerald-500/20"
+          : "bg-cyan-500/10 text-cyan-600 dark:text-[#22d3ee] border-cyan-500/20";
+
+        const tagsHtml = (group.items || []).map(function (skill) {
+          return '<span class="px-3 py-1.5 rounded-lg text-xs font-mono bg-slate-100 dark:bg-[#09090b] border border-slate-200 dark:border-[#27272a] text-slate-800 dark:text-slate-200">' + escapeHtml(skill) + '</span>';
+        }).join("");
+
+        return (
+          '<div class="' + spanClass + ' flex flex-col justify-between rounded-2xl border border-slate-200 dark:border-[#27272a] bg-white dark:bg-[#111114] p-6 sm:p-7 ' + hoverBorder + ' transition-colors">' +
+            '<div>' +
+              '<div class="flex items-center gap-3 mb-5">' +
+                '<div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border ' + iconBox + '">' +
+                  '<svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">' +
+                    '<path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" />' +
+                  '</svg>' +
+                '</div>' +
+                '<div>' +
+                  '<h3 class="text-lg font-bold text-slate-900 dark:text-white">' + escapeHtml(group.title) + '</h3>' +
+                  '<p class="text-xs font-mono text-slate-500 dark:text-slate-400">' + escapeHtml(group.subtitle || "") + '</p>' +
+                '</div>' +
+              '</div>' +
+              '<div class="flex flex-wrap gap-2">' + tagsHtml + '</div>' +
+            '</div>' +
+            buildAdminItemControls("skills", idx, list.length) +
+          '</div>'
+        );
+      }).join("");
+    }
+
+    function renderEducationAndSeminars() {
+      const edu = portfolioData.education || {};
+      document.getElementById("eduBadge").textContent = edu.badge || "Undergraduate Degree";
+      document.getElementById("eduDegree").textContent = edu.degree || "";
+      document.getElementById("eduInstitution").textContent = edu.institution || "";
+      document.getElementById("eduLocation").textContent = edu.location || "";
+      document.getElementById("eduShortTag").textContent = edu.shortTag || "BSIT · PLV";
+
+      const list = portfolioData.seminars || [];
+      const dates = ["All"];
+      list.forEach(function (s) {
+        if (s.date && dates.indexOf(s.date) === -1) {
+          dates.push(s.date);
+        }
+      });
+
+      if (dates.indexOf(activeSeminarFilter) === -1) {
+        activeSeminarFilter = "All";
+      }
+
+      const filtersEl = document.getElementById("seminarFilters");
+      filtersEl.innerHTML = dates.map(function (d) {
+        const selected = d === activeSeminarFilter;
+        const label = d === "All" ? "All (" + list.length + ")" : d;
+        return (
+          '<button type="button" data-sem-filter="' + escapeHtml(d) + '" role="tab" aria-selected="' + selected + '" class="sem-filter-btn rounded-xl px-3.5 py-1.5 text-xs font-mono font-medium transition-all ' +
+            (selected
+              ? 'bg-slate-900 dark:bg-[#22d3ee] text-white dark:text-[#09090b]'
+              : 'border border-slate-200 dark:border-[#27272a] bg-white dark:bg-[#111114] text-slate-700 dark:text-slate-300 hover:border-cyan-500/50') +
+          '">' + escapeHtml(label) + '</button>'
+        );
+      }).join("");
+
+      filtersEl.querySelectorAll(".sem-filter-btn").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          activeSeminarFilter = btn.getAttribute("data-sem-filter");
+          renderEducationAndSeminars();
+        });
+      });
+
+      const filtered = activeSeminarFilter === "All"
+        ? list
+        : list.filter(function (s) { return s.date === activeSeminarFilter; });
+
+      const gridEl = document.getElementById("seminarsGrid");
+      gridEl.innerHTML = filtered.map(function (seminar) {
+        const realIndex = list.findIndex(function (item) { return item.id === seminar.id; });
+        const isEmerald = seminar.accent === "emerald";
+        const pillClasses = isEmerald
+          ? "bg-emerald-500/10 border-emerald-500/25 text-emerald-700 dark:text-[#34d399]"
+          : "bg-cyan-500/10 border-cyan-500/25 text-cyan-700 dark:text-[#22d3ee]";
+        const hoverBorder = isEmerald
+          ? "hover:border-emerald-500/50 dark:hover:border-[#34d399]/50"
+          : "hover:border-cyan-500/50 dark:hover:border-[#22d3ee]/50";
+        const iconColor = isEmerald ? "text-emerald-600 dark:text-[#34d399]" : "text-cyan-600 dark:text-[#22d3ee]";
+
+        return (
+          '<article class="rounded-2xl border border-slate-200 dark:border-[#27272a] bg-white dark:bg-[#111114] p-6 flex flex-col justify-between gap-4 shadow-sm transition-all duration-300 hover:-translate-y-0.5 ' + hoverBorder + '">' +
+            '<div>' +
+              '<div class="flex flex-wrap items-center justify-between gap-2 mb-4">' +
+                '<span class="inline-flex items-center rounded-full border px-3 py-1 font-mono text-[11px] font-medium ' + pillClasses + '">' + escapeHtml(seminar.category) + '</span>' +
+                '<span class="inline-flex items-center gap-1.5 font-mono text-xs text-slate-500 dark:text-slate-400">' +
+                  '<svg class="h-3.5 w-3.5 ' + iconColor + '" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">' +
+                    '<path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />' +
+                  '</svg>' +
+                  escapeHtml(seminar.date) +
+                '</span>' +
+              '</div>' +
+              '<h4 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white leading-snug">' + escapeHtml(seminar.title) + '</h4>' +
+            '</div>' +
+            '<div>' +
+              '<div class="pt-4 border-t border-slate-200/80 dark:border-[#27272a]/80 flex items-center justify-between gap-2 text-xs text-slate-600 dark:text-slate-400">' +
+                '<span class="inline-flex items-center gap-2 font-medium">' +
+                  '<svg class="h-4 w-4 shrink-0 ' + iconColor + '" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">' +
+                    '<path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" />' +
+                  '</svg>' +
+                  escapeHtml(seminar.institution) +
+                '</span>' +
+                '<span class="font-mono text-[11px] uppercase tracking-wider text-slate-400 dark:text-slate-500">PLV</span>' +
+              '</div>' +
+              buildAdminItemControls("seminars", realIndex, list.length) +
+            '</div>' +
+          '</article>'
+        );
+      }).join("");
+    }
+
+    function getContactIconSvg(iconType) {
+      if (iconType === "location") {
+        return '<svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>';
+      }
+      if (iconType === "github") {
+        return '<svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" /></svg>';
+      }
+      if (iconType === "linkedin") {
+        return '<svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14m-.5 15.5v-5.3a3.26 3.26 0 00-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 011.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 001.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 00-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z" /></svg>';
+      }
+      if (iconType === "itch") {
+        return '<svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M14.25 6.087c0-.355.186-.676.401-.959.221-.29.349-.634.349-1.003 0-1.036-1.007-1.875-2.25-1.875s-2.25.84-2.25 1.875c0 .369.128.713.349 1.003.215.283.401.604.401.959v0a.64.64 0 01-.657.643 48.39 48.39 0 01-4.163-.3c.186 1.613.293 3.25.315 4.907a.656.656 0 01-.658.663v0c-.355 0-.676-.186-.959-.401a1.647 1.647 0 00-1.003-.349c-1.036 0-1.875 1.007-1.875 2.25s.84 2.25 1.875 2.25c.369 0 .713-.128 1.003-.349.283-.215.604-.401.959-.401v0c.31 0 .555.26.532.57a48.039 48.039 0 01-.642 5.056c1.518.19 3.058.309 4.616.354a.64.64 0 00.657-.643v0c0-.355-.186-.676-.401-.959a1.647 1.647 0 01-.349-1.003c0-1.035 1.008-1.875 2.25-1.875 1.243 0 2.25.84 2.25 1.875 0 .369-.128.713-.349 1.003-.215.283-.4.604-.4.959v0c0 .333.277.599.61.58a48.1 48.1 0 005.427-.63 48.05 48.05 0 00.582-4.717.532.532 0 00-.533-.57v0c-.355 0-.676.186-.959.401-.29.221-.634.349-1.003.349-1.035 0-1.875-1.007-1.875-2.25s.84-2.25 1.875-2.25c.37 0 .713.128 1.003.349.283.215.604.401.96.401v0a.656.656 0 00.658-.663 48.422 48.422 0 00-.37-5.36c-1.886.342-3.81.574-5.766.689a.578.578 0 01-.61-.58v0z" /></svg>';
+      }
+      return '<svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>';
+    }
+
+    function renderContacts() {
+      const list = portfolioData.contacts || [];
+      const gridEl = document.getElementById("contactCardsGrid");
+
+      gridEl.innerHTML = list.map(function (c) {
+        const valueHtml = c.url
+          ? '<a href="' + escapeHtml(c.url) + '" target="_blank" rel="noopener noreferrer" class="text-sm font-medium text-slate-900 dark:text-slate-100 hover:text-cyan-600 dark:hover:text-[#22d3ee] truncate block">' + escapeHtml(c.display) + '</a>'
+          : '<p class="text-sm font-medium text-slate-900 dark:text-slate-100 truncate">' + escapeHtml(c.display) + '</p>';
+
+        return (
+          '<div class="rounded-2xl border border-slate-200 dark:border-[#27272a] bg-white dark:bg-[#111114] p-4 flex items-center justify-between gap-3 hover:border-cyan-500/40 dark:hover:border-[#22d3ee]/40 transition-colors">' +
+            '<div class="flex items-center gap-3 min-w-0">' +
+              '<div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-cyan-500/10 text-cyan-600 dark:text-[#22d3ee] border border-cyan-500/20">' +
+                getContactIconSvg(c.icon) +
+              '</div>' +
+              '<div class="min-w-0">' +
+                '<p class="text-[11px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">' + escapeHtml(c.label) + '</p>' +
+                valueHtml +
+              '</div>' +
+            '</div>' +
+            '<button type="button" data-copy-val="' + escapeHtml(c.copyValue || c.display) + '" data-copy-lbl="' + escapeHtml(c.label) + '" class="copy-contact-btn shrink-0 inline-flex items-center gap-1.5 rounded-xl border border-slate-200 dark:border-[#27272a] bg-slate-50 dark:bg-[#09090b] px-3 py-2 text-xs font-mono font-medium text-slate-700 dark:text-slate-300 hover:border-cyan-500/60 hover:text-cyan-600 dark:hover:text-[#22d3ee] transition-colors">' +
+              'Copy' +
+            '</button>' +
+          '</div>'
+        );
+      }).join("");
+
+      gridEl.querySelectorAll(".copy-contact-btn").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          copyText(btn.getAttribute("data-copy-val"), btn.getAttribute("data-copy-lbl"));
+        });
+      });
+    }
+
+    function renderAllPortfolio() {
+      renderHeroAndTerminal();
+      renderExperiences();
+      renderProjects();
+      renderSkills();
+      renderEducationAndSeminars();
+      renderContacts();
+      updateAdminUiState();
+    }
+
+    function updateAdminUiState() {
+      const heroAdminBar = document.getElementById("heroAdminBar");
+      const adminOnlyEls = document.querySelectorAll(".admin-only");
+
+      if (isAdminVerified) {
+        adminToolbar.classList.remove("hidden");
+        mainHeader.classList.remove("top-0");
+        mainHeader.classList.add("top-[45px]");
+        heroAdminBar.classList.remove("hidden");
+        adminOnlyEls.forEach(function (el) { el.classList.remove("hidden"); });
+        adminUserEmail.textContent = currentAuthUser && currentAuthUser.email ? currentAuthUser.email : "";
+        navDevTriggerLabel.textContent = "Admin";
+        navDevTrigger.classList.add("border-emerald-500/50", "text-emerald-600", "dark:text-emerald-300");
+        footerDevLoginLabel.textContent = "CMS Active";
+      } else {
+        adminToolbar.classList.add("hidden");
+        mainHeader.classList.add("top-0");
+        mainHeader.classList.remove("top-[45px]");
+        heroAdminBar.classList.add("hidden");
+        adminOnlyEls.forEach(function (el) { el.classList.add("hidden"); });
+        navDevTriggerLabel.textContent = "Dev";
+        navDevTrigger.classList.remove("border-emerald-500/50", "text-emerald-600", "dark:text-emerald-300");
+        footerDevLoginLabel.textContent = "Developer Login";
+      }
+    }
+
+    const projectModal = document.getElementById("projectModal");
+    function openProjectModal(projectId) {
+      const project = (portfolioData.projects || []).find(function (p) { return p.id === projectId; });
+      if (!project) return;
+      activeModalProject = project;
+
+      document.getElementById("modalCategory").textContent = project.category;
+      const modalBadge = document.getElementById("modalBadge");
+      if (project.flagship) {
+        modalBadge.classList.remove("hidden");
+      } else {
+        modalBadge.classList.add("hidden");
+      }
+      document.getElementById("modalTitle").textContent = project.title;
+      document.getElementById("modalSummary").textContent = project.summary;
+
+      const highlightWrap = document.getElementById("modalHighlightWrap");
+      if (project.highlight) {
+        highlightWrap.classList.remove("hidden");
+        document.getElementById("modalHighlight").textContent = project.highlight;
+      } else {
+        highlightWrap.classList.add("hidden");
+      }
+
+      const archWrap = document.getElementById("modalArchitectureWrap");
+      if (project.architecture) {
+        archWrap.classList.remove("hidden");
+        document.getElementById("modalArchitecture").textContent = project.architecture;
+      } else {
+        archWrap.classList.add("hidden");
+      }
+
+      document.getElementById("modalStack").innerHTML = (project.stack || []).map(function (tech) {
+        return '<span class="px-2.5 py-1 rounded-lg text-xs font-mono bg-slate-100 dark:bg-[#09090b] border border-slate-200 dark:border-[#27272a] text-slate-800 dark:text-slate-200">' + escapeHtml(tech) + '</span>';
+      }).join("");
+
+      const modalLink = document.getElementById("modalLink");
+      if (project.link) {
+        modalLink.href = project.link;
+        document.getElementById("modalLinkLabel").textContent = project.linkLabel || "Visit Project";
+        modalLink.classList.remove("hidden");
+      } else {
+        modalLink.classList.add("hidden");
+      }
+
+      projectModal.classList.remove("hidden");
+      document.body.classList.add("overflow-hidden");
+    }
+
+    function closeProjectModal() {
+      projectModal.classList.add("hidden");
+      document.body.classList.remove("overflow-hidden");
+      activeModalProject = null;
+    }
+
+    document.getElementById("modalCloseBtn").addEventListener("click", closeProjectModal);
+    document.getElementById("modalCloseFooter").addEventListener("click", closeProjectModal);
+    document.getElementById("modalBackdrop").addEventListener("click", closeProjectModal);
+    document.getElementById("modalCopyBtn").addEventListener("click", function () {
+      if (!activeModalProject) return;
+      const text = activeModalProject.title + " (" + activeModalProject.category + ") — " + activeModalProject.summary + " Stack: " + (activeModalProject.stack || []).join(", ");
+      copyText(text, "Project summary");
+    });
+
+    document.getElementById("contactForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const nameVal = document.getElementById("contactName").value.trim();
+      const emailVal = document.getElementById("contactEmail").value.trim();
+      const subjectVal = document.getElementById("contactSubject").value.trim();
+      const messageVal = document.getElementById("contactMessage").value.trim();
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      let valid = true;
+      document.getElementById("nameError").classList.toggle("hidden", nameVal.length >= 2);
+      if (nameVal.length < 2) valid = false;
+
+      document.getElementById("emailError").classList.toggle("hidden", emailPattern.test(emailVal));
+      if (!emailPattern.test(emailVal)) valid = false;
+
+      document.getElementById("subjectError").classList.toggle("hidden", subjectVal.length >= 3);
+      if (subjectVal.length < 3) valid = false;
+
+      document.getElementById("messageError").classList.toggle("hidden", messageVal.length >= 10);
+      if (messageVal.length < 10) valid = false;
+
+      if (!valid) {
+        showToast("Please fix the highlighted fields before sending.", "error");
+        return;
+      }
+
+      document.getElementById("contactForm").reset();
+      showToast("Thanks, " + nameVal + "! Your message has been sent.", "success");
+    });
+
+    function resolveFirebaseConfig() {
+      try {
+        const customRaw = localStorage.getItem("pp_custom_firebase_config");
+        if (customRaw) {
+          const parsed = JSON.parse(customRaw);
+          if (parsed && parsed.apiKey && parsed.projectId) {
+            return parsed;
+          }
+        }
+      } catch (e) {}
+
+      if (typeof __firebase_config !== "undefined" && __firebase_config) {
+        try {
+          const parsedEnv = typeof __firebase_config === "string" ? JSON.parse(__firebase_config) : __firebase_config;
+          if (parsedEnv && parsedEnv.apiKey) {
+            return parsedEnv;
+          }
+        } catch (e) {}
+      }
+
+      if (window.__EMBEDDED_FIREBASE_CONFIG__ && window.__EMBEDDED_FIREBASE_CONFIG__.apiKey) {
+        return window.__EMBEDDED_FIREBASE_CONFIG__;
+      }
+
+      return null;
+    }
+
+    async function initFirebaseSystem() {
+      if (unsubPortfolio) {
+        unsubPortfolio();
+        unsubPortfolio = null;
+      }
+      if (unsubMeta) {
+        unsubMeta();
+        unsubMeta = null;
+      }
+
+      const config = resolveFirebaseConfig();
+      if (!config) {
+        firebaseReady = false;
+        setSyncStatus("Local Mode (No Firebase Config)");
+        return;
+      }
+
+      try {
+        const existingApps = getApps();
+        for (let i = 0; i < existingApps.length; i += 1) {
+          await deleteApp(existingApps[i]);
+        }
+
+        firebaseApp = initializeApp(config);
+        auth = getAuth(firebaseApp);
+        db = getFirestore(firebaseApp);
+
+        portfolioDocRef = doc(db, "artifacts", appId, "public", "data", "portfolios", "patrick_pascual");
+        metaDocRef = doc(db, "artifacts", appId, "public", "data", "portfolios", "patrick_pascual_meta");
+
+        firebaseReady = true;
+        setSyncStatus("Connecting...");
+
+        if (!auth.currentUser) {
+          if (typeof __initial_auth_token !== "undefined" && __initial_auth_token) {
+            await signInWithCustomToken(auth, __initial_auth_token);
+          } else {
+            await signInAnonymously(auth);
+          }
+        }
+
+        onAuthStateChanged(auth, function (user) {
+          currentAuthUser = user;
+          evaluateAdminVerification();
+          attachFirestoreListeners();
+        });
+      } catch (err) {
+        firebaseReady = false;
+        setSyncStatus("Firebase Connection Error");
+      }
+    }
+
+    function evaluateAdminVerification() {
+      if (
+        currentAuthUser &&
+        !currentAuthUser.isAnonymous &&
+        metaState &&
+        metaState.adminUid &&
+        currentAuthUser.uid === metaState.adminUid
+      ) {
+        isAdminVerified = true;
+      } else {
+        isAdminVerified = false;
+      }
+      renderAllPortfolio();
+    }
+
+    function attachFirestoreListeners() {
+      if (!firebaseReady || !auth || !auth.currentUser) return;
+
+      if (!unsubMeta) {
+        unsubMeta = onSnapshot(
+          metaDocRef,
+          function (snap) {
+            metaState = snap.exists() ? snap.data() : null;
+            evaluateAdminVerification();
+            updateAuthModalState();
+          },
+          function () {
+            setSyncStatus("Read Restricted");
+          }
+        );
+      }
+
+      if (!unsubPortfolio) {
+        unsubPortfolio = onSnapshot(
+          portfolioDocRef,
+          function (snap) {
+            if (snap.exists()) {
+              const incoming = snap.data();
+              if (incoming && incoming.profile) {
+                portfolioData = incoming;
+                renderAllPortfolio();
+              }
+            }
+            setSyncStatus("Synced to Cloud");
+          },
+          function () {
+            setSyncStatus("Offline / Local Defaults");
+          }
+        );
+      }
+    }
+
+    async function persistPortfolioToFirestore() {
+      renderAllPortfolio();
+      if (!firebaseReady || !db || !auth || !auth.currentUser || !isAdminVerified) {
+        setSyncStatus("Saved Locally (Connect Firebase to Sync)");
+        showToast("Updated in local session. Connect Firebase to sync globally.", "warn");
+        return;
+      }
+
+      try {
+        setSyncStatus("Saving...");
+        const payload = JSON.parse(JSON.stringify(portfolioData));
+        payload.updatedAt = new Date().toISOString();
+        payload.updatedBy = auth.currentUser.email || auth.currentUser.uid;
+        await setDoc(portfolioDocRef, payload);
+        setSyncStatus("Synced to Cloud");
+        showToast("Portfolio updated & published live!", "success");
+      } catch (err) {
+        setSyncStatus("Save Failed");
+        showToast("Firestore save error: " + (err.message || "Permission denied"), "error");
+      }
+    }
+
+    const authModal = document.getElementById("authModal");
+    const authErrorMsg = document.getElementById("authErrorMsg");
+
+    function updateAuthModalState() {
+      const titleEl = document.getElementById("authModalTitle");
+      const subtitleEl = document.getElementById("authModalSubtitle");
+      const noticeBox = document.getElementById("authNoticeBox");
+      const confirmWrap = document.getElementById("authConfirmWrap");
+      const submitBtn = document.getElementById("authSubmitBtn");
+      const resetBtn = document.getElementById("authResetPwdBtn");
+
+      authErrorMsg.classList.add("hidden");
+
+      if (!firebaseReady) {
+        titleEl.textContent = "Firebase Setup Required";
+        subtitleEl.textContent = "Connect Firebase Auth & Firestore";
+        noticeBox.innerHTML = "No active Firebase configuration was detected. Click <strong>Firebase / Vercel Setup</strong> below to connect your Firebase project, or enable temporary local preview mode.";
+        confirmWrap.classList.add("hidden");
+        submitBtn.textContent = "Enable Temporary Local Edit Mode";
+        resetBtn.classList.add("hidden");
+        return;
+      }
+
+      const isClaimed = Boolean(metaState && metaState.adminUid);
+      if (!isClaimed) {
+        titleEl.textContent = "Claim Developer Account";
+        subtitleEl.textContent = "One-Time Owner Lock Registration";
+        noticeBox.innerHTML = "<strong>Unclaimed Portfolio:</strong> Register your developer Email &amp; Password below. Once claimed, your Firebase UID is permanently locked as the sole administrator.";
+        confirmWrap.classList.remove("hidden");
+        submitBtn.textContent = "Claim & Lock Developer Account";
+        resetBtn.classList.add("hidden");
+      } else {
+        titleEl.textContent = "Developer Sign In";
+        subtitleEl.textContent = "Verified Owner Authentication";
+        noticeBox.innerHTML = "Sign in with your claimed developer credentials (<span class=\"font-mono\">" + escapeHtml(metaState.adminEmail || "Owner Account") + "</span>) to unlock live visual editing.";
+        confirmWrap.classList.add("hidden");
+        submitBtn.textContent = "Sign In to CMS";
+        resetBtn.classList.remove("hidden");
+      }
+    }
+
+    function openAuthModal() {
+      if (isAdminVerified) {
+        adminToolbar.scrollIntoView({ behavior: "smooth" });
+        showToast("Developer CMS Edit Mode is already active.", "success");
+        return;
+      }
+      updateAuthModalState();
+      authModal.classList.remove("hidden");
+    }
+
+    function closeAuthModal() {
+      authModal.classList.add("hidden");
+    }
+
+    navDevTrigger.addEventListener("click", openAuthModal);
+    footerDevLoginBtn.addEventListener("click", openAuthModal);
+    document.getElementById("authCloseBtn").addEventListener("click", closeAuthModal);
+    document.getElementById("authModalBackdrop").addEventListener("click", closeAuthModal);
+
+    document.getElementById("authForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      authErrorMsg.classList.add("hidden");
+
+      if (!firebaseReady) {
+        isAdminVerified = true;
+        renderAllPortfolio();
+        closeAuthModal();
+        showToast("Temporary Local Edit Mode enabled. Export HTML to save changes.", "warn");
+        return;
+      }
+
+      const email = document.getElementById("authEmail").value.trim();
+      const password = document.getElementById("authPassword").value;
+      const confirmPassword = document.getElementById("authPasswordConfirm").value;
+      const submitBtn = document.getElementById("authSubmitBtn");
+
+      if (!email || password.length < 6) {
+        authErrorMsg.textContent = "Enter a valid email and a password of at least 6 characters.";
+        authErrorMsg.classList.remove("hidden");
+        return;
+      }
+
+      submitBtn.disabled = true;
+
+      try {
+        const latestMetaSnap = await getDoc(metaDocRef);
+        const latestMeta = latestMetaSnap.exists() ? latestMetaSnap.data() : null;
+
+        if (!latestMeta || !latestMeta.adminUid) {
+          if (password !== confirmPassword) {
+            throw new Error("Passwords do not match.");
+          }
+          const cred = await createUserWithEmailAndPassword(auth, email, password);
+          const newMeta = {
+            adminUid: cred.user.uid,
+            adminEmail: cred.user.email,
+            claimedAt: new Date().toISOString()
+          };
+          await setDoc(metaDocRef, newMeta);
+          metaState = newMeta;
+
+          const existingPortfolio = await getDoc(portfolioDocRef);
+          if (!existingPortfolio.exists()) {
+            await setDoc(portfolioDocRef, portfolioData);
+          }
+
+          currentAuthUser = cred.user;
+          isAdminVerified = true;
+          renderAllPortfolio();
+          closeAuthModal();
+          showToast("Developer account claimed & locked to " + cred.user.email + "!", "success");
+        } else {
+          const cred = await signInWithEmailAndPassword(auth, email, password);
+          if (cred.user.uid !== latestMeta.adminUid) {
+            await signOut(auth);
+            await signInAnonymously(auth);
+            throw new Error("Access Denied: This account UID is not the claimed portfolio developer.");
+          }
+          metaState = latestMeta;
+          currentAuthUser = cred.user;
+          isAdminVerified = true;
+          renderAllPortfolio();
+          closeAuthModal();
+          showToast("Welcome back, Patrick! Developer CMS unlocked.", "success");
+        }
+      } catch (err) {
+        authErrorMsg.textContent = err.message || "Authentication failed.";
+        authErrorMsg.classList.remove("hidden");
+      } finally {
+        submitBtn.disabled = false;
+      }
+    });
+
+    document.getElementById("authResetPwdBtn").addEventListener("click", async function () {
+      const email = document.getElementById("authEmail").value.trim();
+      if (!email) {
+        authErrorMsg.textContent = "Enter your developer email address first to send a reset link.";
+        authErrorMsg.classList.remove("hidden");
+        return;
+      }
+      try {
+        await sendPasswordResetEmail(auth, email);
+        showToast("Password reset email sent to " + email + ".", "success");
+      } catch (err) {
+        authErrorMsg.textContent = err.message || "Could not send password reset email.";
+        authErrorMsg.classList.remove("hidden");
+      }
+    });
+
+    document.getElementById("adminSignOutBtn").addEventListener("click", async function () {
+      try {
+        if (firebaseReady && auth) {
+          await signOut(auth);
+          await signInAnonymously(auth);
+        }
+      } catch (e) {}
+      isAdminVerified = false;
+      renderAllPortfolio();
+      showToast("Signed out of Developer CMS.", "success");
+    });
+
+    const configModal = document.getElementById("configModal");
+    document.getElementById("openFirebaseConfigBtn").addEventListener("click", function () {
+      const currentCfg = resolveFirebaseConfig();
+      document.getElementById("firebaseConfigTextarea").value = currentCfg ? JSON.stringify(currentCfg, null, 2) : "";
+      configModal.classList.remove("hidden");
+    });
+    document.getElementById("authOpenConfigBtn").addEventListener("click", function () {
+      closeAuthModal();
+      const currentCfg = resolveFirebaseConfig();
+      document.getElementById("firebaseConfigTextarea").value = currentCfg ? JSON.stringify(currentCfg, null, 2) : "";
+      configModal.classList.remove("hidden");
+    });
+    document.getElementById("configCloseBtn").addEventListener("click", function () {
+      configModal.classList.add("hidden");
+    });
+    document.getElementById("configModalBackdrop").addEventListener("click", function () {
+      configModal.classList.add("hidden");
+    });
+
+    document.getElementById("saveFirebaseConfigBtn").addEventListener("click", async function () {
+      const raw = document.getElementById("firebaseConfigTextarea").value.trim();
+      try {
+        const parsed = JSON.parse(raw);
+        if (!parsed.apiKey || !parsed.projectId) {
+          throw new Error("Config JSON must include apiKey and projectId.");
+        }
+        localStorage.setItem("pp_custom_firebase_config", JSON.stringify(parsed));
+        configModal.classList.add("hidden");
+        await initFirebaseSystem();
+        showToast("Firebase configuration saved & connected!", "success");
+      } catch (err) {
+        showToast("Invalid Firebase JSON: " + (err.message || "Check syntax"), "error");
+      }
+    });
+
+    document.getElementById("clearFirebaseConfigBtn").addEventListener("click", async function () {
+      localStorage.removeItem("pp_custom_firebase_config");
+      document.getElementById("firebaseConfigTextarea").value = "";
+      configModal.classList.add("hidden");
+      await initFirebaseSystem();
+      showToast("Custom Firebase config cleared.", "success");
+    });
+
+    document.getElementById("exportHtmlBtn").addEventListener("click", function () {
+      try {
+        const clonedDoc = document.documentElement.cloneNode(true);
+        const adminBarClone = clonedDoc.querySelector("#adminToolbar");
+        if (adminBarClone) adminBarClone.classList.add("hidden");
+        const headerClone = clonedDoc.querySelector("#mainHeader");
+        if (headerClone) {
+          headerClone.classList.add("top-0");
+          headerClone.classList.remove("top-[45px]");
+        }
+        const heroAdminClone = clonedDoc.querySelector("#heroAdminBar");
+        if (heroAdminClone) heroAdminClone.classList.add("hidden");
+        clonedDoc.querySelectorAll(".admin-only").forEach(function (el) {
+          el.classList.add("hidden");
+        });
+
+        const activeCfg = resolveFirebaseConfig();
+        const cfgScript = clonedDoc.querySelector("#embeddedConfigScript");
+        if (cfgScript) {
+          cfgScript.textContent = "\n    window.__EMBEDDED_FIREBASE_CONFIG__ = " + JSON.stringify(activeCfg) + ";\n  ";
+        }
+
+        const dataScript = clonedDoc.querySelector("#defaultPortfolioScript");
+        if (dataScript) {
+          dataScript.textContent = "\n    window.__DEFAULT_PORTFOLIO_DATA__ = " + JSON.stringify(portfolioData, null, 2) + ";\n  ";
+        }
+
+        const finalHtml = "<!DOCTYPE html>\n" + clonedDoc.outerHTML;
+        const blob = new Blob([finalHtml], { type: "text/html;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "index.html";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast("Standalone Vercel-ready index.html downloaded!", "success");
+      } catch (err) {
+        showToast("Export failed: " + err.message, "error");
+      }
+    });
+
+    const jsonModal = document.getElementById("jsonModal");
+    document.getElementById("openJsonModalBtn").addEventListener("click", function () {
+      document.getElementById("jsonPortfolioTextarea").value = JSON.stringify(portfolioData, null, 2);
+      jsonModal.classList.remove("hidden");
+    });
+    document.getElementById("jsonCloseBtn").addEventListener("click", function () {
+      jsonModal.classList.add("hidden");
+    });
+    document.getElementById("jsonModalBackdrop").addEventListener("click", function () {
+      jsonModal.classList.add("hidden");
+    });
+    document.getElementById("copyJsonBtn").addEventListener("click", function () {
+      copyText(document.getElementById("jsonPortfolioTextarea").value, "Portfolio JSON");
+    });
+    document.getElementById("downloadJsonBtn").addEventListener("click", function () {
+      const blob = new Blob([document.getElementById("jsonPortfolioTextarea").value], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "patrick-pascual-portfolio.json";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast("Portfolio JSON downloaded.", "success");
+    });
+    document.getElementById("applyJsonImportBtn").addEventListener("click", async function () {
+      try {
+        const parsed = JSON.parse(document.getElementById("jsonPortfolioTextarea").value);
+        if (!parsed.profile || !Array.isArray(parsed.projects)) {
+          throw new Error("JSON must contain profile and projects fields.");
+        }
+        portfolioData = parsed;
+        jsonModal.classList.add("hidden");
+        await persistPortfolioToFirestore();
+      } catch (err) {
+        showToast("Invalid JSON import: " + err.message, "error");
+      }
+    });
+
+    const confirmModal = document.getElementById("confirmModal");
+    function openConfirmModal(message, onConfirm) {
+      document.getElementById("confirmModalMessage").textContent = message;
+      pendingConfirmCallback = onConfirm;
+      confirmModal.classList.remove("hidden");
+    }
+    function closeConfirmModal() {
+      confirmModal.classList.add("hidden");
+      pendingConfirmCallback = null;
+    }
+    document.getElementById("confirmCancelBtn").addEventListener("click", closeConfirmModal);
+    document.getElementById("confirmModalBackdrop").addEventListener("click", closeConfirmModal);
+    document.getElementById("confirmAcceptBtn").addEventListener("click", async function () {
+      const cb = pendingConfirmCallback;
+      closeConfirmModal();
+      if (cb) await cb();
+    });
+
+    const editorDrawer = document.getElementById("editorDrawer");
+    const drawerTitle = document.getElementById("drawerTitle");
+    const drawerForm = document.getElementById("drawerForm");
+
+    function closeEditorDrawer() {
+      editorDrawer.classList.add("hidden");
+      activeDrawerContext = null;
+    }
+
+    document.getElementById("drawerCloseBtn").addEventListener("click", closeEditorDrawer);
+    document.getElementById("drawerCancelBtn").addEventListener("click", closeEditorDrawer);
+    document.getElementById("drawerBackdrop").addEventListener("click", closeEditorDrawer);
+
+    function inputFieldHtml(id, label, value, placeholder) {
+      return (
+        '<div>' +
+          '<label for="' + id + '" class="block text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">' + escapeHtml(label) + '</label>' +
+          '<input id="' + id + '" type="text" value="' + escapeHtml(value || "") + '" placeholder="' + escapeHtml(placeholder || "") + '" class="w-full rounded-xl border border-slate-300 dark:border-[#27272a] bg-slate-50 dark:bg-[#09090b] px-3.5 py-2.5 text-sm text-slate-900 dark:text-slate-100 focus:border-cyan-500 dark:focus:border-[#22d3ee] focus:outline-none">' +
+        '</div>'
+      );
+    }
+
+    function textareaFieldHtml(id, label, value, rows, hint) {
+      return (
+        '<div>' +
+          '<label for="' + id + '" class="block text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">' + escapeHtml(label) + '</label>' +
+          '<textarea id="' + id + '" rows="' + (rows || 4) + '" class="w-full rounded-xl border border-slate-300 dark:border-[#27272a] bg-slate-50 dark:bg-[#09090b] px-3.5 py-2.5 text-sm text-slate-900 dark:text-slate-100 focus:border-cyan-500 dark:focus:border-[#22d3ee] focus:outline-none">' + escapeHtml(value || "") + '</textarea>' +
+          (hint ? '<p class="mt-1 text-[11px] font-mono text-slate-500">' + escapeHtml(hint) + '</p>' : '') +
+        '</div>'
+      );
+    }
+
+    function openEditorDrawer(context) {
+      activeDrawerContext = context;
+
+      if (context.type === "profile") {
+        drawerTitle.textContent = "Edit Hero, Bio & Terminal Card";
+        const p = portfolioData.profile;
+        const t = portfolioData.terminal;
+        const profileRowsText = (t.profileRows || []).map(function (r) {
+          return r.key + " | " + r.value + " | " + (r.accent || "default");
+        }).join("\n");
+        const infraRowsText = (t.infraRows || []).map(function (r) {
+          return r.key + " | " + r.value + " | " + (r.accent || "default");
+        }).join("\n");
+
+        drawerForm.innerHTML =
+          inputFieldHtml("edProfName", "Full Name", p.name) +
+          inputFieldHtml("edProfHeadline", "Headline / Role", p.headline) +
+          inputFieldHtml("edProfLocation", "Location", p.location) +
+          textareaFieldHtml("edProfBio", "Hero Summary / Bio", p.bio, 4) +
+          '<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">' +
+            inputFieldHtml("edProfLinkLbl", "Primary CTA Label", p.primaryLinkLabel) +
+            inputFieldHtml("edProfLinkUrl", "Primary CTA URL", p.primaryLinkUrl) +
+          '</div>' +
+          '<div class="pt-3 border-t border-slate-200 dark:border-[#27272a] space-y-4">' +
+            '<h4 class="font-mono text-xs uppercase tracking-wider text-cyan-600 dark:text-[#22d3ee]">Interactive Terminal Status Card</h4>' +
+            inputFieldHtml("edTermHost", "Terminal Prompt Host", t.host) +
+            '<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">' +
+              inputFieldHtml("edTermLeft", "Footer Left Metric", t.footerLeft) +
+              inputFieldHtml("edTermRight", "Footer Right Metric", t.footerRight) +
+            '</div>' +
+            textareaFieldHtml("edTermProfileRows", "Profile Tab Rows (key | value | accent)", profileRowsText, 4, "Accents: default, tags, emerald, cyan") +
+            textareaFieldHtml("edTermInfraRows", "Infra Tab Rows (key | value | accent)", infraRowsText, 4, "Accents: default, tags, emerald, cyan") +
+          '</div>';
+      } else if (context.type === "experience") {
+        const item = context.index != null ? portfolioData.experiences[context.index] : {
+          role: "",
+          company: "",
+          period: "",
+          accent: "cyan",
+          bullets: []
+        };
+        drawerTitle.textContent = context.index != null ? "Edit Work Experience" : "Add Work Experience";
+        drawerForm.innerHTML =
+          inputFieldHtml("edExpRole", "Job Title / Role", item.role, "System Administrator") +
+          inputFieldHtml("edExpCompany", "Company / Organization", item.company, "Jeonsoft Corp. - Internship") +
+          inputFieldHtml("edExpPeriod", "Date Range", item.period, "June 16, 2026 - October 8, 2026") +
+          '<div>' +
+            '<label for="edExpAccent" class="block text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Timeline Node Accent</label>' +
+            '<select id="edExpAccent" class="w-full rounded-xl border border-slate-300 dark:border-[#27272a] bg-slate-50 dark:bg-[#09090b] px-3.5 py-2.5 text-sm text-slate-900 dark:text-slate-100">' +
+              '<option value="cyan" ' + (item.accent !== "emerald" ? "selected" : "") + '>Cyan</option>' +
+              '<option value="emerald" ' + (item.accent === "emerald" ? "selected" : "") + '>Emerald</option>' +
+            '</select>' +
+          '</div>' +
+          textareaFieldHtml("edExpBullets", "Responsibilities & Achievements (One per line)", (item.bullets || []).join("\n"), 6, "Each new line becomes a bullet point.");
+      } else if (context.type === "project") {
+        const item = context.index != null ? portfolioData.projects[context.index] : {
+          title: "",
+          category: "Full-Stack & Cloud",
+          flagship: false,
+          summary: "",
+          highlight: "",
+          architecture: "",
+          stack: [],
+          link: "",
+          linkLabel: ""
+        };
+        drawerTitle.textContent = context.index != null ? "Edit Project" : "Add New Project";
+        drawerForm.innerHTML =
+          inputFieldHtml("edProjTitle", "Project Title", item.title, "BlockGo") +
+          '<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">' +
+            inputFieldHtml("edProjCategory", "Category", item.category, "Full-Stack & Cloud") +
+            '<div class="flex items-center pt-5">' +
+              '<label class="inline-flex items-center gap-2.5 cursor-pointer">' +
+                '<input id="edProjFlagship" type="checkbox" ' + (item.flagship ? "checked" : "") + ' class="h-4 w-4 rounded border-slate-300 text-cyan-500 focus:ring-cyan-500">' +
+                '<span class="text-sm font-medium text-slate-700 dark:text-slate-300">Feature as Flagship Card</span>' +
+              '</label>' +
+            '</div>' +
+          '</div>' +
+          textareaFieldHtml("edProjSummary", "Project Summary", item.summary, 3) +
+          textareaFieldHtml("edProjHighlight", "Key Implementation Highlight (Modal)", item.highlight, 2) +
+          textareaFieldHtml("edProjArch", "System Architecture Details (Modal)", item.architecture, 3) +
+          inputFieldHtml("edProjStack", "Tech Stack (Comma-separated)", (item.stack || []).join(", "), "Hyperledger Fabric, Go, GKE Autopilot, React") +
+          '<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">' +
+            inputFieldHtml("edProjLink", "Live / Repo URL (Optional)", item.link, "https://plv-blockgo.com") +
+            inputFieldHtml("edProjLinkLbl", "Button Label", item.linkLabel, "Visit plv-blockgo.com") +
+          '</div>';
+      } else if (context.type === "skill") {
+        const item = context.index != null ? portfolioData.skills[context.index] : {
+          title: "",
+          subtitle: "",
+          accent: "cyan",
+          span: 6,
+          items: []
+        };
+        drawerTitle.textContent = context.index != null ? "Edit Skill Category" : "Add Skill Category";
+        drawerForm.innerHTML =
+          inputFieldHtml("edSkillTitle", "Category Title", item.title, "Systems & Cloud Infrastructure") +
+          inputFieldHtml("edSkillSubtitle", "Subtitle / Domain", item.subtitle, "OS · Containers · Networking") +
+          '<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">' +
+            '<div>' +
+              '<label for="edSkillAccent" class="block text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Accent Color</label>' +
+              '<select id="edSkillAccent" class="w-full rounded-xl border border-slate-300 dark:border-[#27272a] bg-slate-50 dark:bg-[#09090b] px-3.5 py-2.5 text-sm text-slate-900 dark:text-slate-100">' +
+                '<option value="cyan" ' + (item.accent !== "emerald" ? "selected" : "") + '>Cyan</option>' +
+                '<option value="emerald" ' + (item.accent === "emerald" ? "selected" : "") + '>Emerald</option>' +
+              '</select>' +
+            '</div>' +
+            '<div>' +
+              '<label for="edSkillSpan" class="block text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Bento Width</label>' +
+              '<select id="edSkillSpan" class="w-full rounded-xl border border-slate-300 dark:border-[#27272a] bg-slate-50 dark:bg-[#09090b] px-3.5 py-2.5 text-sm text-slate-900 dark:text-slate-100">' +
+                '<option value="7" ' + (Number(item.span) !== 5 ? "selected" : "") + '>Wide (7 cols)</option>' +
+                '<option value="5" ' + (Number(item.span) === 5 ? "selected" : "") + '>Compact (5 cols)</option>' +
+              '</select>' +
+            '</div>' +
+          '</div>' +
+          textareaFieldHtml("edSkillItems", "Skills & Technologies (Comma-separated)", (item.items || []).join(", "), 4, "Separate each skill tag with a comma.");
+      } else if (context.type === "education") {
+        const edu = portfolioData.education || {};
+        drawerTitle.textContent = "Edit Education Credential";
+        drawerForm.innerHTML =
+          inputFieldHtml("edEduBadge", "Credential Badge", edu.badge, "Undergraduate Degree") +
+          inputFieldHtml("edEduDegree", "Degree Program", edu.degree, "Bachelor of Science in Information Technology (BSIT)") +
+          inputFieldHtml("edEduInst", "Institution", edu.institution, "Pamantasan ng Lungsod ng Valenzuela (PLV)") +
+          inputFieldHtml("edEduLoc", "Location", edu.location, "Valenzuela City, Philippines") +
+          inputFieldHtml("edEduTag", "Short Tag", edu.shortTag, "BSIT · PLV");
+      } else if (context.type === "seminar") {
+        const item = context.index != null ? portfolioData.seminars[context.index] : {
+          title: "",
+          institution: "Pamantasan ng Lungsod ng Valenzuela",
+          date: "April 24, 2024",
+          category: "Full-Stack Engineering",
+          accent: "cyan"
+        };
+        drawerTitle.textContent = context.index != null ? "Edit Seminar" : "Add Seminar";
+        drawerForm.innerHTML =
+          textareaFieldHtml("edSemTitle", "Seminar Title", item.title, 2) +
+          inputFieldHtml("edSemInst", "Host Institution", item.institution, "Pamantasan ng Lungsod ng Valenzuela") +
+          inputFieldHtml("edSemDate", "Date", item.date, "April 24, 2024") +
+          inputFieldHtml("edSemCat", "Topic Category", item.category, "Cybersecurity & NetOps") +
+          '<div>' +
+            '<label for="edSemAccent" class="block text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Badge Accent</label>' +
+            '<select id="edSemAccent" class="w-full rounded-xl border border-slate-300 dark:border-[#27272a] bg-slate-50 dark:bg-[#09090b] px-3.5 py-2.5 text-sm text-slate-900 dark:text-slate-100">' +
+              '<option value="cyan" ' + (item.accent !== "emerald" ? "selected" : "") + '>Cyan</option>' +
+              '<option value="emerald" ' + (item.accent === "emerald" ? "selected" : "") + '>Emerald</option>' +
+            '</select>' +
+          '</div>';
+      } else if (context.type === "contacts") {
+        drawerTitle.textContent = "Edit Contact & Social Cards";
+        const rowsText = (portfolioData.contacts || []).map(function (c) {
+          return [c.label, c.display, c.copyValue, c.url || "", c.icon || "email"].join(" | ");
+        }).join("\n");
+        drawerForm.innerHTML =
+          textareaFieldHtml(
+            "edContactsRows",
+            "Contact Cards (Label | Display Text | Copy Value | URL or blank | Icon)",
+            rowsText,
+            8,
+            "Icons: email, location, github, linkedin, itch. One card per line."
+          );
+      }
+
+      editorDrawer.classList.remove("hidden");
+    }
+
+    drawerForm.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      if (!activeDrawerContext) return;
+
+      const ctx = activeDrawerContext;
+      if (ctx.type === "profile") {
+        portfolioData.profile.name = document.getElementById("edProfName").value.trim() || portfolioData.profile.name;
+        portfolioData.profile.headline = document.getElementById("edProfHeadline").value.trim();
+        portfolioData.profile.location = document.getElementById("edProfLocation").value.trim();
+        portfolioData.profile.bio = document.getElementById("edProfBio").value.trim();
+        portfolioData.profile.primaryLinkLabel = document.getElementById("edProfLinkLbl").value.trim();
+        portfolioData.profile.primaryLinkUrl = document.getElementById("edProfLinkUrl").value.trim();
+
+        portfolioData.terminal.host = document.getElementById("edTermHost").value.trim();
+        portfolioData.terminal.footerLeft = document.getElementById("edTermLeft").value.trim();
+        portfolioData.terminal.footerRight = document.getElementById("edTermRight").value.trim();
+
+        function parseTermRows(rawText) {
+          return rawText.split("\n").map(function (line) {
+            const parts = line.split("|").map(function (s) { return s.trim(); });
+            if (!parts[0]) return null;
+            return { key: parts[0], value: parts[1] || "", accent: parts[2] || "default" };
+          }).filter(Boolean);
+        }
+
+        portfolioData.terminal.profileRows = parseTermRows(document.getElementById("edTermProfileRows").value);
+        portfolioData.terminal.infraRows = parseTermRows(document.getElementById("edTermInfraRows").value);
+      } else if (ctx.type === "experience") {
+        const bullets = document.getElementById("edExpBullets").value.split("\n").map(function (s) { return s.trim(); }).filter(Boolean);
+        const updated = {
+          id: ctx.index != null ? portfolioData.experiences[ctx.index].id : "exp-" + Date.now(),
+          role: document.getElementById("edExpRole").value.trim(),
+          company: document.getElementById("edExpCompany").value.trim(),
+          period: document.getElementById("edExpPeriod").value.trim(),
+          accent: document.getElementById("edExpAccent").value,
+          bullets: bullets
+        };
+        if (ctx.index != null) {
+          portfolioData.experiences[ctx.index] = updated;
+        } else {
+          portfolioData.experiences.unshift(updated);
+        }
+      } else if (ctx.type === "project") {
+        const stack = document.getElementById("edProjStack").value.split(",").map(function (s) { return s.trim(); }).filter(Boolean);
+        const updated = {
+          id: ctx.index != null ? portfolioData.projects[ctx.index].id : "proj-" + Date.now(),
+          title: document.getElementById("edProjTitle").value.trim(),
+          category: document.getElementById("edProjCategory").value.trim() || "Full-Stack & Cloud",
+          flagship: document.getElementById("edProjFlagship").checked,
+          summary: document.getElementById("edProjSummary").value.trim(),
+          highlight: document.getElementById("edProjHighlight").value.trim(),
+          architecture: document.getElementById("edProjArch").value.trim(),
+          stack: stack,
+          link: document.getElementById("edProjLink").value.trim(),
+          linkLabel: document.getElementById("edProjLinkLbl").value.trim()
+        };
+        if (ctx.index != null) {
+          portfolioData.projects[ctx.index] = updated;
+        } else {
+          portfolioData.projects.unshift(updated);
+        }
+      } else if (ctx.type === "skill") {
+        const items = document.getElementById("edSkillItems").value.split(",").map(function (s) { return s.trim(); }).filter(Boolean);
+        const updated = {
+          id: ctx.index != null ? portfolioData.skills[ctx.index].id : "skill-" + Date.now(),
+          title: document.getElementById("edSkillTitle").value.trim(),
+          subtitle: document.getElementById("edSkillSubtitle").value.trim(),
+          accent: document.getElementById("edSkillAccent").value,
+          span: Number(document.getElementById("edSkillSpan").value) || 7,
+          items: items
+        };
+        if (ctx.index != null) {
+          portfolioData.skills[ctx.index] = updated;
+        } else {
+          portfolioData.skills.push(updated);
+        }
+      } else if (ctx.type === "education") {
+        portfolioData.education = {
+          badge: document.getElementById("edEduBadge").value.trim(),
+          degree: document.getElementById("edEduDegree").value.trim(),
+          institution: document.getElementById("edEduInst").value.trim(),
+          location: document.getElementById("edEduLoc").value.trim(),
+          shortTag: document.getElementById("edEduTag").value.trim()
+        };
+      } else if (ctx.type === "seminar") {
+        const updated = {
+          id: ctx.index != null ? portfolioData.seminars[ctx.index].id : "sem-" + Date.now(),
+          title: document.getElementById("edSemTitle").value.trim(),
+          institution: document.getElementById("edSemInst").value.trim(),
+          date: document.getElementById("edSemDate").value.trim(),
+          category: document.getElementById("edSemCat").value.trim(),
+          accent: document.getElementById("edSemAccent").value
+        };
+        if (ctx.index != null) {
+          portfolioData.seminars[ctx.index] = updated;
+        } else {
+          portfolioData.seminars.unshift(updated);
+        }
+      } else if (ctx.type === "contacts") {
+        const lines = document.getElementById("edContactsRows").value.split("\n");
+        portfolioData.contacts = lines.map(function (line, i) {
+          const parts = line.split("|").map(function (s) { return s.trim(); });
+          if (!parts[0]) return null;
+          return {
+            id: "contact-" + i,
+            label: parts[0],
+            display: parts[1] || parts[0],
+            copyValue: parts[2] || parts[1] || "",
+            url: parts[3] || "",
+            icon: parts[4] || "email"
+          };
+        }).filter(Boolean);
+      }
+
+      closeEditorDrawer();
+      await persistPortfolioToFirestore();
+    });
+
+    document.addEventListener("click", async function (e) {
+      const adminActionBtn = e.target.closest("[data-admin-action]");
+      if (adminActionBtn && isAdminVerified) {
+        const action = adminActionBtn.getAttribute("data-admin-action");
+        if (action === "edit-profile") openEditorDrawer({ type: "profile" });
+        if (action === "add-experience") openEditorDrawer({ type: "experience", index: null });
+        if (action === "add-project") openEditorDrawer({ type: "project", index: null });
+        if (action === "add-skill") openEditorDrawer({ type: "skill", index: null });
+        if (action === "edit-education") openEditorDrawer({ type: "education" });
+        if (action === "add-seminar") openEditorDrawer({ type: "seminar", index: null });
+        if (action === "edit-contacts") openEditorDrawer({ type: "contacts" });
+        return;
+      }
+
+      const itemBtn = e.target.closest("[data-item-action]");
+      if (itemBtn && isAdminVerified) {
+        const act = itemBtn.getAttribute("data-item-action");
+        const sec = itemBtn.getAttribute("data-section");
+        const idx = Number(itemBtn.getAttribute("data-index"));
+        const arr = portfolioData[sec];
+        if (!Array.isArray(arr) || idx < 0 || idx >= arr.length) return;
+
+        if (act === "up" && idx > 0) {
+          const tmp = arr[idx - 1];
+          arr[idx - 1] = arr[idx];
+          arr[idx] = tmp;
+          await persistPortfolioToFirestore();
+        } else if (act === "down" && idx < arr.length - 1) {
+          const tmp = arr[idx + 1];
+          arr[idx + 1] = arr[idx];
+          arr[idx] = tmp;
+          await persistPortfolioToFirestore();
+        } else if (act === "edit") {
+          const singularMap = {
+            experiences: "experience",
+            projects: "project",
+            skills: "skill",
+            seminars: "seminar"
+          };
+          openEditorDrawer({ type: singularMap[sec], index: idx });
+        } else if (act === "delete") {
+          openConfirmModal("Delete this entry permanently from your live portfolio?", async function () {
+            arr.splice(idx, 1);
+            await persistPortfolioToFirestore();
+          });
+        }
+      }
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") {
+        if (!projectModal.classList.contains("hidden")) closeProjectModal();
+        if (!authModal.classList.contains("hidden")) closeAuthModal();
+        if (!editorDrawer.classList.contains("hidden")) closeEditorDrawer();
+        if (!configModal.classList.contains("hidden")) configModal.classList.add("hidden");
+        if (!jsonModal.classList.contains("hidden")) jsonModal.classList.add("hidden");
+        if (!confirmModal.classList.contains("hidden")) closeConfirmModal();
+      }
+    });
+
+    initTheme();
+    startPhClock();
+    renderAllPortfolio();
+    initFirebaseSystem();
+  </script>
+</body>
+</html>

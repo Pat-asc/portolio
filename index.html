@@ -952,7 +952,6 @@
     import {
       getAuth,
       signInAnonymously,
-      signInWithCustomToken,
       GoogleAuthProvider,
       signInWithPopup,
       signOut,
@@ -990,6 +989,7 @@
     let currentAuthUser = null;
     let isAdminVerified = false;
     let firebaseReady = false;
+    let firebaseInitError = null;
     let activeDrawerContext = null;
     let pendingConfirmCallback = null;
 
@@ -1669,7 +1669,7 @@
         return;
       }
 
-      if (!firebaseReady || !db || !auth || !auth.currentUser) {
+      if (!firebaseReady || !db || !auth) {
         showToast("Firebase is not ready. Your message has not been sent; please try again shortly.", "error");
         return;
       }
@@ -1680,6 +1680,9 @@
       submitButtonText.textContent = "Sending...";
 
       try {
+        if (!auth.currentUser) {
+          await signInAnonymously(auth);
+        }
         await addDoc(collection(db, "artifacts", appId, "public", "data", "contactMessages"), {
           name: nameVal,
           email: emailVal,
@@ -1738,10 +1741,12 @@
       const config = resolveFirebaseConfig();
       if (!config) {
         firebaseReady = false;
+        firebaseInitError = null;
         setSyncStatus("Firebase Setup Required");
         return;
       }
 
+      firebaseInitError = null;
       try {
         const existingApps = getApps();
         for (let i = 0; i < existingApps.length; i += 1) {
@@ -1758,21 +1763,20 @@
         firebaseReady = true;
         setSyncStatus("Connecting...");
 
-        if (!auth.currentUser) {
-          if (typeof __initial_auth_token !== "undefined" && __initial_auth_token) {
-            await signInWithCustomToken(auth, __initial_auth_token);
-          } else {
-            await signInAnonymously(auth);
-          }
-        }
-
         onAuthStateChanged(auth, function (user) {
+          if (!user && unsubMeta) {
+            unsubMeta();
+            unsubMeta = null;
+            metaState = null;
+          }
           currentAuthUser = user;
           evaluateAdminVerification();
           attachFirestoreListeners();
         });
       } catch (err) {
         firebaseReady = false;
+        firebaseInitError = err;
+        console.error("Firebase initialization failed:", err);
         setSyncStatus("Firebase Connection Error");
       }
     }
@@ -1793,9 +1797,9 @@
     }
 
     function attachFirestoreListeners() {
-      if (!firebaseReady || !auth || !auth.currentUser) return;
+      if (!firebaseReady || !db) return;
 
-      if (!unsubMeta) {
+      if (auth && auth.currentUser && !unsubMeta) {
         unsubMeta = onSnapshot(
           metaDocRef,
           function (snap) {
@@ -1865,25 +1869,19 @@
       if (!firebaseReady) {
         titleEl.textContent = "Firebase Setup Required";
         subtitleEl.textContent = "Connect Firebase Auth & Firestore";
-        noticeBox.innerHTML = "Connect Firebase before signing in. Developer editing is disabled until Firebase Auth and Firestore are ready.";
+        noticeBox.textContent = firebaseInitError
+          ? "Firebase could not initialize: " + (firebaseInitError.message || "Check the Firebase configuration.")
+          : "Connect Firebase before signing in. Developer editing is disabled until Firebase Auth and Firestore are ready.";
         submitBtn.textContent = "Connect Firebase to Continue";
         submitBtn.disabled = true;
         return;
       }
 
       submitBtn.disabled = false;
-      const isClaimed = Boolean(metaState && metaState.adminUid);
-      if (!isClaimed) {
-        titleEl.textContent = "Claim Developer Access";
-        subtitleEl.textContent = "Authorized Google Account Required";
-        noticeBox.innerHTML = "Continue with <strong>" + escapeHtml(developerGmail) + "</strong> to claim CMS access. Other Google accounts are not authorized.";
-        submitBtn.textContent = "Continue with Google to Claim";
-      } else {
-        titleEl.textContent = "Developer Sign In";
-        subtitleEl.textContent = "Verified Google Account";
-        noticeBox.innerHTML = "Sign in with the authorized developer account (<span class=\"font-mono\">" + escapeHtml(developerGmail) + "</span>) to unlock live visual editing.";
-        submitBtn.textContent = "Continue with Google";
-      }
+      titleEl.textContent = "Developer Sign In";
+      subtitleEl.textContent = "Authorized Google Account Required";
+      noticeBox.innerHTML = "Continue with <strong>" + escapeHtml(developerGmail) + "</strong> to sign in. The first successful sign-in claims CMS access.";
+      submitBtn.textContent = "Continue with Google";
     }
 
     function openAuthModal() {
@@ -1924,7 +1922,6 @@
 
         if (!cred.user.email || cred.user.email.toLowerCase() !== developerGmail) {
           await signOut(auth);
-          await signInAnonymously(auth);
           throw new Error("Access denied. Sign in with " + developerGmail + ".");
         }
 
@@ -1953,7 +1950,6 @@
         } else {
           if (cred.user.uid !== latestMeta.adminUid) {
             await signOut(auth);
-            await signInAnonymously(auth);
             throw new Error("Access Denied: This account UID is not the claimed portfolio developer.");
           }
           metaState = latestMeta;
@@ -1975,7 +1971,6 @@
       try {
         if (firebaseReady && auth) {
           await signOut(auth);
-          await signInAnonymously(auth);
         }
       } catch (e) {}
       isAdminVerified = false;
